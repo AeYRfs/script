@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            direction: ltr;
+        }
+        .support-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .message {
+            margin: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            max-width: 80%;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+        .bot-message {
+            background-color: #e9ecef;
+            color: black;
+            margin-right: auto;
+        }
+        .message-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .nickname {
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+        .message-text {
+            flex: 1;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+        .avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #ddd;
+        }
+        .user-message .avatar {
+            display: none;
+        }
+        [dir="rtl"] .bot-message {
+            flex-direction: row-reverse;
+        }
+        [dir="rtl"] .user-message {
+            flex-direction: row;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .back-button {
+            background-color: #6c757d;
+            margin-top: 10px;
+            padding: 10px 20px;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+        .send-icon {
+            width: 20px;
+            height: 20px;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+            margin: 10px;
+            max-width: 80%;
+            margin-right: auto;
+        }
+        .typing-indicator .dot {
+            width: 8px;
+            height: 8px;
+            background-color: #007bff;
+            border-radius: 50%;
+            animation: blink 1.4s infinite both;
+        }
+        .typing-indicator .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes blink {
+            0%, 20% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        @media (max-width: 1080px) {
+            .support-container {
+                max-width: 100%;
+                margin: 0;
+                padding: 10px;
+                border-radius: 0;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            .chat-container {
+                flex: 1;
+                height: auto;
+                margin-bottom: 10px;
+            }
+            header {
+                margin-bottom: 10px;
+            }
+            .input-container {
+                padding-bottom: 10px;
+            }
+            .back-button {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="support.js"></script>
+</body>
+</html>
