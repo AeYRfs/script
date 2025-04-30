@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Chemistry Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('icons/wood-texture-cartoon.jpg') repeat center center fixed;
+            background-size: auto;
+            overflow-x: hidden;
+        }
+        .payment-container {
+            background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.4)), url('icons/parchment-texture-cartoon.jpg') repeat center center;
+            background-size: auto;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 750px;
+            text-align: center;
+            animation: fadeEQUIPMENTIn 0.7s ease-in-out;
+        }
+        header h1 {
+            margin: 0 0 30px;
+            font-size: 30px;
+            color: #3e2723;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 700;
+            animation: slideInDown 0.5s ease;
+        }
+        .payment-sets {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+        .set-container {
+            position: relative;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            padding: 20px;
+            padding-bottom: 25px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            overflow: hidden;
+            animation: slideInUp 0.6s ease forwards;
+            animation-delay: calc(var(--index) * 0.15s);
+        }
+        .set-container:nth-child(1) { --index: 1; background: linear-gradient(135deg, #cd7f32 0%, #b87333 100%); }
+        .set-container:nth-child(2) { --index: 2; background: linear-gradient(135deg, #c0c0c0 0%, #a8a8a8 100%); }
+        .set-container:nth-child(3) { --index: 3; background: linear-gradient(135deg, #ffd700 0%, #f0c05a 100%); }
+        .set-container:nth-child(4) { --index: 4; background: linear-gradient(135deg, #6a1b9a 0%, #ab47bc 100%); }
+        .set-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        .set-container.selected {
+            border: 3px solid #d4a017;
+            box-shadow: 0 0 20px rgba(212, 160, 23, 0.6);
+        }
+        .set-container.purchased {
+            opacity: 0.6;
+            background: linear-gradient(135deg, #999999 0%, #777777 100%);
+            cursor: not-allowed;
+        }
+        .set-container.purchased:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        .set-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(255, 255, 255, 0.2) 50%,
+                transparent 100%
+            );
+            transform: rotate(45deg);
+            opacity: 0.5;
+            animation: shineDefault 3s ease-in-out infinite;
+        }
+        .set-container:hover::before {
+            opacity: 1;
+            background: linear-gradient(
+                to right,
+                transparent 0%,
+                rgba(255, 255, 255, 0.5) 50%,
+                transparent 100%
+            );
+            animation: shineHover 1s ease-in-out infinite;
+        }
+        .set-container.purchased::before {
+            animation: none;
+        }
+        .set-container img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: transform 0.4s ease;
+        }
+        .set-container:hover img {
+            transform: scale(1.1);
+        }
+        .set-container.purchased img {
+            filter: grayscale(50%);
+        }
+        .set-container h3 {
+            margin: 0 0 12px;
+            font-size: 20px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            font-weight: 600;
+        }
+        .set-container p {
+            margin: 0;
+            color: #fff;
+            font-weight: bold;
+            font-size: 12px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            line-height: 1.5;
+            white-space: pre-line;
+        }
+        .set-container .status-price {
+            margin-top: 10px;
+            font-size: 1.17em;
+        }
+        .payment-option {
+            margin-bottom: 30px;
+        }
+        .payment-option label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: bold;
+            color: #3e2723;
+            font-size: 18px;
+        }
+        .payment-option select {
+            width: 100%;
+            max-width: 400px;
+            padding: 14px;
+            border: 1px solid #8d6e63;
+            border-radius: 12px;
+            font-size: 16px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"><path fill="%233e2723" d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+        }
+        .payment-option select:focus {
+            border-color: #d4a017;
+            box-shadow: 0 0 12px rgba(212, 160, 23, 0.4);
+            outline: none;
+        }
+        .payment-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        button {
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: #d4a017;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            transform: translateY(0);
+        }
+        button:hover {
+            background: #b28704;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        button:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+        button:disabled {
+            background: #bcaaa4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        button.loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+        #backButton {
+            background: #6d4c41;
+        }
+        #backButton:hover {
+            background: #5d4037;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            animation: zoomIn 0.5s ease-in-out;
+        }
+        .modal-content p {
+            margin: 0 0 25px;
+            font-size: 20px;
+            color: #3e2723;
+            font-weight: bold;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #d4a017;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.7); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes shineDefault {
+            0% { transform: rotate(45deg) translate(-50%, -50%); }
+            50% { transform: rotate(45deg) translate(50%, 50%); }
+            100% { transform: rotate(45deg) translate(150%, 150%); }
+        }
+        @keyframes shineHover {
+            0% { transform: rotate(45deg) translate(-50%, -50%); }
+            50% { transform: rotate(45deg) translate(50%, 50%); }
+            100% { transform: rotate(45deg) translate(150%, 150%); }
+        }
+    </style>
+</head>
+<body>
+    <script src="payment.js"></script>
+</body>
+</html>

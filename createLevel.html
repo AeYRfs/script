@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Level - Chemistry Game</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('icons/wood-texture-cartoon.jpg') repeat center center fixed;
+            background-size: auto;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        header {
+            background: #000;
+            height: 50px;
+            width: 100%;
+            position: fixed;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            left: 0;
+            padding: 0;
+            top: 0;
+            z-index: 1000;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 300px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-20deg);
+            animation: shine 4s infinite;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+        .create-level-container {
+            margin: 0 20px;
+            padding-top: 60px;
+            box-sizing: border-box;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+        }
+        .form-group label {
+            font-weight: bold;
+            font-size: 26px;
+        }
+        .form-group input, .form-group select {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 200px;
+            height: 48px;
+            line-height: 1.5;
+            box-sizing: border-box;
+            transition: background 0.3s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .form-group input[type="file"] {
+            height: auto;
+            padding: 5px;
+        }
+        .form-group select {
+            appearance: none;
+            text-align: center;
+            cursor: pointer;
+        }
+        .form-group input::before, .form-group select::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-20deg);
+            animation: shine 4s infinite;
+        }
+        .form-group input:hover, .form-group select:hover {
+            background: #555;
+            transform: scale(1.05);
+        }
+        .form-group input:active, .form-group select:active {
+            background: #222;
+            transform: scale(0.95);
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #4caf50;
+        }
+        .question-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+        }
+        .question-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+        .question-entry {
+            background: #222;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .create-level-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+        }
+        .create-level-buttons button, .add-question {
+            background: #333;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+            height: 48px;
+            line-height: 1.5;
+            box-sizing: border-box;
+            transition: background 0.3s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .create-level-buttons button::before, .add-question::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-20deg);
+            animation: shine 4s infinite;
+        }
+        .create-level-buttons button:hover, .add-question:hover {
+            background: #555;
+            transform: scale(1.05);
+        }
+        .create-level-buttons button:active, .add-question:active {
+            background: #222;
+            transform: scale(0.95);
+        }
+        #saveButton {
+            background: #388e3c;
+            border: 1px solid #2e7d32;
+        }
+        #saveButton:hover {
+            background: #4caf50;
+        }
+        #saveButton:active {
+            background: #2e7d32;
+        }
+        #backButton {
+            background: #d32f2f;
+            border: 1px solid #b71c1c;
+        }
+        #backButton:hover {
+            background: #f44336;
+        }
+        #backButton:active {
+            background: #b71c1c;
+        }
+        .add-question {
+            background: #0288d1;
+            border: 1px solid #01579b;
+        }
+        .add-question:hover {
+            background: #03a9f4;
+        }
+        .add-question:active {
+            background: #01579b;
+        }
+        .created-levels {
+            margin: 20px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .level-card {
+            background: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+        .level-card:hover {
+            transform: scale(1.02);
+        }
+        .level-info {
+            flex-grow: 1;
+        }
+        .level-info h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .level-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        .level-card button {
+            background: #d32f2f;
+            color: #fff;
+            border: 1px solid #b71c1c;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .level-card button:hover {
+            background: #f44336;
+            transform: scale(1.05);
+        }
+        .level-card button:active {
+            background: #b71c1c;
+            transform: scale(0.95);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 300px;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .modal-content p {
+            margin: 0 0 10px;
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <script src="createLevel.js"></script>
+</body>
+</html>
