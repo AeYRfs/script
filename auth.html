@@ -5,9 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Authentication - Chemistry Game</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        :root {
+            --accent-color: #8672FF;
+            --base-color: white;
+            --text-color: #2E2B41;
+            --input-color: #F3F0FF;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('icons/wood-texture-cartoon.jpg') repeat center center fixed;
             background-size: auto;
             min-height: 100vh;
@@ -15,6 +24,7 @@
             flex-direction: column;
             overflow-x: hidden;
         }
+
         header {
             display: flex;
             justify-content: space-between;
@@ -28,6 +38,7 @@
             box-sizing: border-box;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
+
         header button {
             padding: 8px 16px;
             border: none;
@@ -40,110 +51,193 @@
             transition: all 0.3s ease;
             transform: translateY(0);
         }
+
         header button:hover {
             background: #f0f0f0;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+
         header button:active {
             transform: translateY(1px);
             box-shadow: none;
         }
+
         header p {
             margin: 0;
             font-size: 16px;
             color: #ffffff;
             font-weight: bold;
         }
+
         header p span#coins {
             color: #ffd700;
             font-weight: bold;
         }
+
         #authContainer {
             flex: 1;
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             padding-top: 80px;
             animation: fadeIn 0.5s ease-in-out;
         }
-        .auth-box, .level-selection {
+
+        .wrapper {
+            box-sizing: border-box;
+            background-color: var(--base-color);
+            min-height: 100vh;
+            width: min(40%, 600px);
+            padding: 20px;
+            border-radius: 0 20px 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px 0 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        form > div {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        form label {
+            flex-shrink: 0;
+            height: 50px;
+            width: 50px;
+            background-color: var(--accent-color);
+            fill: var(--base-color);
+            color: var(--base-color);
+            border-radius: 10px 0 0 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        form input {
+            box-sizing: border-box;
+            flex-grow: 1;
+            min-width: 0;
+            height: 50px;
+            padding: 1em;
+            font: inherit;
+            border-radius: 0 10px 10px 0;
+            border: 2px solid var(--input-color);
+            border-left: none;
+            background-color: var(--input-color);
+            transition: 150ms ease;
+        }
+
+        form input:hover {
+            border-color: var(--accent-color);
+        }
+
+        form input:focus {
+            outline: none;
+            border-color: var(--text-color);
+        }
+
+        div:has(input:focus) > label {
+            background-color: var(--text-color);
+        }
+
+        form input::placeholder {
+            color: var(--text-color);
+        }
+
+        form button {
+            margin-top: 10px;
+            border: none;
+            border-radius: 1000px;
+            padding: .85em 4em;
+            background-color: var(--accent-color);
+            color: var(--base-color);
+            font: inherit;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 150ms ease;
+        }
+
+        form button:hover {
+            background-color: var(--text-color);
+        }
+
+        form button:focus {
+            outline: none;
+            background-color: var(--text-color);
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #error-message {
+            color: #f06272;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        form div.incorrect label {
+            background-color: #f06272;
+        }
+
+        form div.incorrect input {
+            border-color: #f06272;
+        }
+
+        .level-selection {
             background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.4)), url('icons/parchment-texture-cartoon.jpg') repeat center center;
             background-size: auto;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
             text-align: center;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-            max-width: 400px;
+            max-width: 600px;
             width: 100%;
             transform: translateY(0);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .auth-box:hover, .level-selection:hover {
+
+        .level-selection:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
-        .auth-box h2, .level-selection h2 {
+
+        .level-selection h2 {
             margin: 0 0 15px;
             font-size: 26px;
             color: #333;
             letter-spacing: 1px;
             animation: slideInDown 0.5s ease;
         }
-        .auth-box input {
-            margin: 8px auto;
-            padding: 10px;
-            width: 220px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 16px;
-            display: block;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .auth-box input:focus {
-            border-color: #4CAF50;
-            box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
-            outline: none;
-        }
-        .auth-box button {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px;
-            width: 220px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 8px auto;
-            transition: all 0.3s ease;
-            transform: translateY(0);
-        }
-        .auth-box button:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .auth-box button:active {
-            transform: translateY(1px);
-            box-shadow: none;
-        }
-        .auth-box button:disabled {
-            background: #cccccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        #loginError {
-            color: #d32f2f;
-            font-size: 14px;
-            margin: 5px 0;
-            opacity: 0;
-            animation: fadeInError 0.3s ease forwards;
-        }
-        .level-selection {
-            padding: 25px;
-        }
+
         .level-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -151,11 +245,7 @@
             padding: 20px;
             justify-items: center;
         }
-        @media (min-width: 1100px) {
-            .level-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
+
         .level-card {
             background: #fff;
             border: 1px solid #ccc;
@@ -171,6 +261,7 @@
             animation: slideInUp 0.5s ease forwards;
             animation-delay: calc(var(--index) * 0.1s);
         }
+
         .level-card:nth-child(1) { --index: 1; }
         .level-card:nth-child(2) { --index: 2; }
         .level-card:nth-child(3) { --index: 3; }
@@ -182,14 +273,17 @@
         .level-card:nth-child(9) { --index: 9; }
         .level-card:nth-child(10) { --index: 10; }
         .level-card.custom { --index: 11; }
+
         .level-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
+
         .level-card.locked {
             opacity: 0.6;
             cursor: not-allowed;
         }
+
         .level-card.completed::after {
             content: '✓';
             position: absolute;
@@ -199,6 +293,7 @@
             color: #4CAF50;
             animation: bounceIn 0.5s ease;
         }
+
         .level-card img {
             width: 100%;
             height: 60%;
@@ -206,31 +301,38 @@
             display: block;
             transition: filter 0.3s ease;
         }
+
         .level-card.locked img {
             filter: grayscale(50%);
         }
+
         .level-info {
             padding: 12px;
             text-align: center;
         }
+
         .level-info h3 {
             margin: 0;
             font-size: 18px;
             color: #333;
             letter-spacing: 0.5px;
         }
+
         .level-info p {
             margin: 6px 0;
             font-size: 14px;
             color: #666;
         }
+
         .level-info p:last-child {
             color: #4CAF50;
             font-weight: bold;
         }
+
         .level-card.locked .level-info p:last-child {
             color: #d32f2f;
         }
+
         .level-info button {
             background: #ff9800;
             color: white;
@@ -245,15 +347,18 @@
             transition: all 0.3s ease;
             transform: translateY(0);
         }
+
         .level-info button:hover {
             background: #f57c00;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+
         .level-info button:active {
             transform: translateY(1px);
             box-shadow: none;
         }
+
         .modal {
             display: none;
             position: fixed;
@@ -266,6 +371,7 @@
             align-items: center;
             z-index: 2000;
         }
+
         .modal-content {
             background: #fff;
             padding: 25px;
@@ -276,17 +382,20 @@
             width: 90%;
             animation: zoomIn 0.3s ease-in-out;
         }
+
         .modal-content p {
             margin: 0 0 15px;
             font-size: 16px;
             color: #333;
             font-weight: bold;
         }
+
         .modal-buttons {
             display: flex;
             justify-content: space-around;
             gap: 10px;
         }
+
         .modal-buttons button {
             background: #4CAF50;
             color: white;
@@ -299,41 +408,63 @@
             transition: all 0.3s ease;
             transform: translateY(0);
         }
+
         .modal-buttons button:hover {
             background: #45a049;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+
         .modal-buttons button:active {
             transform: translateY(1px);
             box-shadow: none;
         }
+
         .modal-buttons button:last-child {
             background: #d32f2f;
         }
+
         .modal-buttons button:last-child:hover {
             background: #b71c1c;
         }
+
+        @media (max-width: 1100px) {
+            .wrapper {
+                width: 100%;
+                border-radius: 0;
+            }
+
+            .level-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 1100px) {
+            .level-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; }
+            from { opacity dégage0; }
             to { opacity: 1; }
         }
-        @keyframes fadeInError {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+
         @keyframes slideInDown {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
         @keyframes slideInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
         @keyframes zoomIn {
             from { opacity: 0; transform: scale(0.7); }
             to { opacity: 1; transform: scale(1); }
         }
+
         @keyframes bounceIn {
             0% { transform: scale(0); }
             50% { transform: scale(1.5); }
