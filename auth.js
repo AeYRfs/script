@@ -12,10 +12,10 @@ const languages = {
         quit: "Quit",
         settings: "Settings",
         login: "Login",
-        register: "Register",
+        signup: "Signup",
         selectLevel: "Select Level",
-        loginError: "Invalid nickname or password!",
-        registerError: "Please enter nickname and password!",
+        loginError: "Invalid name or password!",
+        signupError: "Please enter name and password!",
         userExists: "User already exists!",
         level: "Level",
         difficulty: "Difficulty",
@@ -24,23 +24,27 @@ const languages = {
         hard: "Hard",
         completed: "Completed",
         locked: "Locked",
-        registerSuccess: "Registration successful! Please login.",
+        signupSuccess: "Registration successful! Please login.",
         coins: "Coins",
         skipLevel: "Skip Level",
         skipConfirm: "Are you sure you want to skip this level for 100 coins?",
         skipButton: "Skip",
         cancelButton: "Cancel",
         insufficientCoins: "Not enough coins!",
-        questionsLabel: "Questions"
+        questionsLabel: "Questions",
+        alreadyHaveAccount: "Already have an account?",
+        alreadyHaveAccountButton: "Login",
+        noAccount: "No account?",
+        noAccountButton: "Signup"
     },
     ru: {
         quit: "Выйти",
         settings: "Настройки",
-        login: "Войти",
-        register: "Регистрация",
+        login: "Вход",
+        signup: "Зарегистрироваться",
         selectLevel: "Выберите уровень",
         loginError: "Неверный ник или пароль!",
-        registerError: "Введите ник и пароль!",
+        signupError: "Введите ник и пароль!",
         userExists: "Пользователь уже существует!",
         level: "Уровень",
         difficulty: "Сложность",
@@ -49,14 +53,18 @@ const languages = {
         hard: "Сложно",
         completed: "Пройден",
         locked: "Закрыт",
-        registerSuccess: "Регистрация успешна! Пожалуйста, войдите.",
+        signupSuccess: "Регистрация успешна! Пожалуйста, войдите.",
         coins: "Монеты",
         skipLevel: "Пропустить уровень",
         skipConfirm: "Вы уверены, что хотите пропустить уровень за 100 монет?",
         skipButton: "Пропустить",
         cancelButton: "Отмена",
         insufficientCoins: "Недостаточно монет!",
-        questionsLabel: "Вопросы"
+        questionsLabel: "Вопросы",
+        alreadyHaveAccount: "Уже есть аккаунт?",
+        alreadyHaveAccountButton: "Войти",
+        noAccount: "Нет аккаунта?",
+        noAccountButton: "Зарегистрироваться"
     }
 };
 
@@ -85,7 +93,7 @@ function renderAuthInterface() {
     modal.id = "registerModal";
     modal.innerHTML = `
         <div class="modal-content">
-            <p>${languages[currentLang].registerSuccess}</p>
+            <p>${languages[currentLang].signupSuccess}</p>
         </div>
     `;
     document.body.appendChild(modal);
@@ -117,22 +125,70 @@ function renderAuthInterface() {
     if (currentUser) {
         showLevelSelection();
     } else {
-        showLoginScreen();
+        showAuthScreen();
     }
 }
 
-function showLoginScreen() {
+function showAuthScreen(showSignup = false) {
     const authContainer = document.getElementById("authContainer");
     authContainer.innerHTML = `
-        <div class="auth-box">
-            <h2>${languages[currentLang].login}</h2>
-            <input type="text" id="username" placeholder="${currentLang === "ru" ? "Ник" : "Nickname"}"><br>
-            <input type="password" id="password" placeholder="${currentLang === "ru" ? "Пароль" : "Password"}"><br>
-            <p id="loginError" style="color: red; display: none;"></p>
-            <button onclick="login()">${languages[currentLang].login}</button>
-            <button onclick="register()">${languages[currentLang].register}</button>
+        <div class="wrapper">
+            <h1>${showSignup ? languages[currentLang].signup : languages[currentLang].login}</h1>
+            <p id="error-message"></p>
+            <form id="form" onsubmit="handleAuth(event, ${showSignup})">
+                <div>
+                    <label for="firstname-input">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Z"/></svg>
+                    </label>
+                    <input type="text" name="${showSignup ? 'firstname' : 'name'}" id="firstname-input" placeholder="${currentLang === 'ru' ? 'Имя' : 'Name'}">
+                </div>
+                <div>
+                    <label for="password-input">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"/></svg>
+                    </label>
+                    <input type="password" name="password" id="password-input" placeholder="${currentLang === 'ru' ? 'Пароль' : 'Password'}">
+                </div>
+                <button type="submit">${showSignup ? languages[currentLang].signup : languages[currentLang].login}</button>
+            </form>
+            <p>${showSignup ? languages[currentLang].alreadyHaveAccount : languages[currentLang].noAccount} 
+                <a href="#" onclick="showAuthScreen(${!showSignup})">${showSignup ? languages[currentLang].alreadyHaveAccountButton : languages[currentLang].noAccountButton}</a>
+            </p>
         </div>
     `;
+}
+
+function handleAuth(event, isSignup) {
+    event.preventDefault();
+    const name = document.getElementById("firstname-input").value.trim();
+    const password = document.getElementById("password-input").value.trim();
+    const errorElement = document.getElementById("error-message");
+
+    if (!name || !password) {
+        errorElement.textContent = languages[currentLang].signupError;
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("users")) || {};
+
+    if (isSignup) {
+        if (users[name]) {
+            errorElement.textContent = languages[currentLang].userExists;
+            return;
+        }
+        users[name] = { password, language: currentLang, coins: 0, vip: false, customLevels: [] };
+        localStorage.setItem("users", JSON.stringify(users));
+        showRegisterModal();
+    } else {
+        if (users[name] && users[name].password === password) {
+            localStorage.setItem("currentUser", name);
+            currentUser = name;
+            currentLang = users[name].language || "en";
+            localStorage.setItem("gameLanguage", currentLang);
+            renderAuthInterface();
+        } else {
+            errorElement.textContent = languages[currentLang].loginError;
+        }
+    }
 }
 
 function showLevelSelection() {
@@ -246,66 +302,19 @@ function showErrorModal() {
     }, 2000);
 }
 
-function register() {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const errorElement = document.getElementById("loginError");
-
-    if (!username || !password) {
-        errorElement.textContent = languages[currentLang].registerError;
-        errorElement.style.display = "block";
-        return;
-    }
-
-    const users = JSON.parse(localStorage.getItem("users")) || {};
-    if (users[username]) {
-        errorElement.textContent = languages[currentLang].userExists;
-        errorElement.style.display = "block";
-        return;
-    }
-
-    users[username] = { password, language: currentLang, coins: 0, vip: false, customLevels: [] };
-    localStorage.setItem("users", JSON.stringify(users));
-    showRegisterModal();
-}
-
-function login() {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const errorElement = document.getElementById("loginError");
-
-    if (!username || !password) {
-        errorElement.textContent = languages[currentLang].registerError;
-        errorElement.style.display = "block";
-        return;
-    }
-
-    const users = JSON.parse(localStorage.getItem("users")) || {};
-    if (users[username] && users[username].password === password) {
-        localStorage.setItem("currentUser", username);
-        currentUser = username;
-        currentLang = users[username].language || "en";
-        localStorage.setItem("gameLanguage", currentLang);
-        renderAuthInterface();
-    } else {
-        errorElement.textContent = languages[currentLang].loginError;
-        errorElement.style.display = "block";
-    }
+function showRegisterModal() {
+    const modal = document.getElementById("registerModal");
+    modal.style.display = "flex";
+    setTimeout(() => {
+        modal.style.display = "none";
+        showAuthScreen(false);
+    }, 2000);
 }
 
 function logout() {
     localStorage.removeItem("currentUser");
     currentUser = null;
     renderAuthInterface();
-}
-
-function showRegisterModal() {
-    const modal = document.getElementById("registerModal");
-    modal.style.display = "flex";
-    setTimeout(() => {
-        modal.style.display = "none";
-        showLoginScreen();
-    }, 2000);
 }
 
 function updateLanguage() {
