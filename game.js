@@ -1,9 +1,15 @@
+let currentLang = localStorage.getItem("gameLanguage") || "en";
+const validLanguages = ["en", "ru"];
+if (!validLanguages.includes(currentLang)) {
+    currentLang = "en";
+    localStorage.setItem("gameLanguage", "en");
+}
+
 const languages = {
     en: {
         quit: "Quit",
         score: "Score",
         settings: "Settings",
-        coins: "Coins",
         controls: { left: "⬅️ LEFT", right: "➡️ RIGHT", up: "⬆️ UP", down: "⬇️ DOWN" },
         questionLabel: "Question:",
         placeholder: "Write your answer",
@@ -15,7 +21,6 @@ const languages = {
         quit: "Выйти",
         score: "Счёт",
         settings: "Настройки",
-        coins: "Монеты",
         controls: { left: "⬅️ ВЛЕВО", right: "➡️ ВПРАВО", up: "⬆️ ВВЕРХ", down: "⬇️ ВНИЗ" },
         questionLabel: "Вопрос:",
         placeholder: "Введите ответ",
@@ -24,13 +29,6 @@ const languages = {
         level: "Уровень"
     }
 };
-
-let currentLang = localStorage.getItem("gameLanguage") || "en";
-const validLanguages = ["en", "ru"];
-if (!validLanguages.includes(currentLang)) {
-    currentLang = "en";
-    localStorage.setItem("gameLanguage", "en");
-}
 
 let elements = [];
 const collected = [];
@@ -267,7 +265,7 @@ function init() {
         <button onclick="location.href='settings.html';">${languages[currentLang].settings}</button>
         <button onclick="location.href='auth.html';">${languages[currentLang].quit}</button>
         <p>${languages[currentLang].score}: <span id="score">0</span>/${elements.length}</p>
-        <p>${languages[currentLang].coins}: <span id="coins">${userCoins}</span></p>
+        <p><img src="icons/coin.jpg" alt="Coins" style="width: 24px; vertical-align: middle;"> <span id="coins">${userCoins}</span></p>
         <p>${languages[currentLang].level}: ${levelName}</p>
     `;
     document.body.insertBefore(header, canvas);
