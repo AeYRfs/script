@@ -3,15 +3,15 @@ const paymentLanguages = {
         title: "Top Up Your Account",
         payButton: "Pay Now",
         backButton: "Back to Settings",
-        success: "Payment successful! Coins added to your balance.",
-        vipSuccess: "VIP status activated! You now earn 100 coins per hour and can create custom levels.",
+        success: "Payment successful! Added to your balance.",
+        vipSuccess: "VIP status activated! You now earn 100 per hour and can create custom levels.",
         error: "Payment failed. Please try again later.",
         paymentMethodLabel: "Choose Payment Method:",
         smallSet: "Bronze Pack",
         mediumSet: "Silver Pack",
         largeSet: "Gold Pack",
         vipSet: "VIP Membership",
-        vipDescription: "★ 100 coins/hour\n★ Create custom levels",
+        vipDescription: "★ 100 per hour\n★ Create custom levels",
         processing: "Processing your payment...",
         purchased: "Purchased"
     },
@@ -19,15 +19,15 @@ const paymentLanguages = {
         title: "Пополнить счёт",
         payButton: "Оплатить",
         backButton: "Вернуться в настройки",
-        success: "Оплата прошла успешно! Монеты добавлены на баланс.",
-        vipSuccess: "VIP-статус активирован! Вы получаете 100 монет в час и можете создавать свои уровни.",
+        success: "Оплата прошла успешно! Добавлено на баланс.",
+        vipSuccess: "VIP-статус активирован! Вы получаете 100 в час и можете создавать свои уровни.",
         error: "Ошибка оплаты. Попробуйте снова позже.",
         paymentMethodLabel: "Выберите способ оплаты:",
         smallSet: "Бронзовый набор",
         mediumSet: "Серебряный набор",
         largeSet: "Золотой набор",
         vipSet: "VIP-подписка",
-        vipDescription: "★ 100 монет/час\n★ Создание своих уровней",
+        vipDescription: "★ 100 в час\n★ Создание своих уровней",
         processing: "Обработка платежа...",
         purchased: "Куплено"
     }
@@ -144,7 +144,7 @@ function initPayment() {
         } else {
             content += `<p>${isPurchased 
                 ? paymentLanguages[currentLang].purchased 
-                : `${set.coins} Coins - $${set.price}`}</p>`;
+                : `${set.coins} <img src="icons/coin.jpg" alt="Coins" style="width: 24px; vertical-align: middle;"> - $${set.price}`}</p>`;
         }
         setElement.innerHTML = content;
         if (!isPurchased) {
@@ -187,7 +187,7 @@ function initPayment() {
                         startVipCoinAccrual();
                     } else {
                         users[currentUser].coins = (users[currentUser].coins || 0) + selectedSet.coins;
-                        document.getElementById("successMessage").textContent = paymentLanguages[currentLang].success;
+                        document.getElementById("successMessage").textContent = paymentLanguages[currentLang].success.replace("Added", `${selectedSet.coins} <img src="icons/coin.jpg" alt="Coins" style="width: 24px; vertical-align: middle;"> Added`);
                     }
                     localStorage.setItem("users", JSON.stringify(users));
                     console.log(`Processed payment for user: ${currentUser}. VIP: ${users[currentUser].vip || false}, Coins: ${users[currentUser].coins || 0}`);
