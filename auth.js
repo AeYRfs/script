@@ -25,7 +25,6 @@ const languages = {
         completed: "Completed",
         locked: "Locked",
         signupSuccess: "Registration successful! Please login.",
-        coins: "Coins",
         skipLevel: "Skip Level",
         skipConfirm: "Are you sure you want to skip this level for 100 coins?",
         skipButton: "Skip",
@@ -54,7 +53,6 @@ const languages = {
         completed: "Пройден",
         locked: "Закрыт",
         signupSuccess: "Регистрация успешна! Пожалуйста, войдите.",
-        coins: "Монеты",
         skipLevel: "Пропустить уровень",
         skipConfirm: "Вы уверены, что хотите пропустить уровень за 100 монет?",
         skipButton: "Пропустить",
@@ -79,7 +77,7 @@ function renderAuthInterface() {
         <button onclick="location.href='settings.html';">${languages[currentLang].settings}</button>
         ${currentUser ? `
             <button onclick="logout()">${languages[currentLang].quit}</button>
-            <p>${languages[currentLang].coins}: <span id="coins">${userCoins}</span></p>
+            <p><img src="icons/coin.jpg" alt="Coins" style="width: 24px; vertical-align: middle;"> <span id="coins">${userCoins}</span></p>
         ` : ''}
     `;
     document.body.appendChild(header);
