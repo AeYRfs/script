@@ -34,7 +34,9 @@ const languages = {
         alreadyHaveAccount: "Already have an account?",
         alreadyHaveAccountButton: "Login",
         noAccount: "No account?",
-        noAccountButton: "Signup"
+        noAccountButton: "Signup",
+        achievements: "Achievements",
+        menu: "Menu"
     },
     ru: {
         quit: "Выйти",
@@ -62,7 +64,9 @@ const languages = {
         alreadyHaveAccount: "Уже есть аккаунт?",
         alreadyHaveAccountButton: "Войти",
         noAccount: "Нет аккаунта?",
-        noAccountButton: "Зарегистрироваться"
+        noAccountButton: "Зарегистрироваться",
+        achievements: "Достижения",
+        menu: "Меню"
     }
 };
 
@@ -74,11 +78,17 @@ function renderAuthInterface() {
 
     const header = document.createElement("header");
     header.innerHTML = `
-        <button onclick="location.href='settings.html';">${languages[currentLang].settings}</button>
         ${currentUser ? `
-            <button onclick="logout()">${languages[currentLang].quit}</button>
+            <button id="menuButton"><svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg></button>
+            <div class="header-buttons">
+                <button onclick="location.href='settings.html'">${languages[currentLang].settings}</button>
+                <button onclick="location.href='achievements.html'">${languages[currentLang].achievements}</button>
+                <button onclick="logout()">${languages[currentLang].quit}</button>
+            </div>
             <p><img src="icons/coin.jpg" alt="Coins" style="width: 24px; vertical-align: middle;"> <span id="coins">${userCoins}</span></p>
-        ` : ''}
+        ` : `
+            <button onclick="location.href='settings.html'">${languages[currentLang].settings}</button>
+        `}
     `;
     document.body.appendChild(header);
 
@@ -104,7 +114,6 @@ function renderAuthInterface() {
             <p>${languages[currentLang].skipConfirm}</p>
             <div class="modal-buttons">
                 <button id="confirmSkip">${languages[currentLang].skipButton}</button>
-                <button id="cancelSkip">${languages[currentLang].cancelButton}</button>
             </div>
         </div>
     `;
@@ -120,8 +129,31 @@ function renderAuthInterface() {
     `;
     document.body.appendChild(errorModal);
 
+    const menuModal = document.createElement("div");
+    menuModal.className = "modal menu-modal";
+    menuModal.id = "menuModal";
+    menuModal.innerHTML = `
+        <div class="menu-content">
+            <button onclick="location.href='settings.html'">${languages[currentLang].settings}</button>
+            <button onclick="location.href='achievements.html'">${languages[currentLang].achievements}</button>
+            <button onclick="logout()">${languages[currentLang].quit}</button>
+        </div>
+    `;
+    document.body.appendChild(menuModal);
+
     if (currentUser) {
         showLevelSelection();
+        const menuButton = document.getElementById("menuButton");
+        const menuModal = document.getElementById("menuModal");
+        menuButton.onclick = () => {
+            if (menuModal.style.display === "flex") {
+                menuModal.style.display = "none";
+                menuButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="M120 816v-60h720v60H120Zm0-210v-60h720v60H120Zm0-210v-60h720v60H120Z"/></svg>`;
+            } else {
+                menuModal.style.display = "flex";
+                menuButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 96 960 960" width="48"><path d="m249 849-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>`;
+            }
+        };
     } else {
         showAuthScreen();
     }
@@ -192,7 +224,7 @@ function handleAuth(event, isSignup) {
 function showLevelSelection() {
     const authContainer = document.getElementById("authContainer");
     authContainer.innerHTML = `
-        <div class="level-selection">
+        <div class="wrapper level-selection">
             <h2>${languages[currentLang].selectLevel}</h2>
             <div id="levelList" class="level-grid"></div>
         </div>
@@ -266,8 +298,10 @@ function showSkipConfirmation(level) {
         skipModal.style.display = "none";
     };
 
-    document.getElementById("cancelSkip").onclick = () => {
-        skipModal.style.display = "none";
+    skipModal.onclick = (e) => {
+        if (e.target === skipModal) {
+            skipModal.style.display = "none";
+        }
     };
 }
 
