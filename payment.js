@@ -41,7 +41,7 @@ const paymentSets = [
 ];
 
 const paymentMethods = [
-    { value: "bank_card", label: { en: "Bank Card", ru: "Банковская карта" } },
+    { value: "Bank_card", label: { en: "Bank Card", ru: "Кредитная карта" } },
     { value: "paypal", label: { en: "PayPal", ru: "PayPal" } },
     { value: "googlepay", label: { en: "GooglePay", ru: "GooglePay" } },
     { value: "applepay", label: { en: "ApplePay", ru: "ApplePay" } }
@@ -134,7 +134,7 @@ function initPayment() {
         const setElement = document.createElement("div");
         setElement.className = `set-container ${isPurchased ? "purchased" : ""}`;
         let content = `
-            <img src="${set.image}" alt="${paymentLanguages[currentLang][set.name]}">
+            <img src="${set.image}" alt="${paymentLanguages[currentLang][set.name]}" style="${set.name === 'mediumSet' ? 'width: 80%; height: auto;' : ''}">
             <h3>${paymentLanguages[currentLang][set.name]}</h3>
         `;
         if (set.name === "vipSet") {
@@ -188,7 +188,7 @@ function initPayment() {
                         startVipCoinAccrual();
                     } else {
                         users[currentUser].coins = (users[currentUser].coins || 0) + selectedSet.coins;
-                        document.getElementById("successMessage").textContent = paymentLanguages[currentLang].success.replace("Added", `${selectedSet.coins} <img src="icons/coin.jpg" alt="Coins" style="width: 24px; vertical-align: middle;"> Added`);
+                        document.getElementById("successMessage").innerHTML = paymentLanguages[currentLang].success.replace(currentLang === "en" ? "Added" : "Добавлено", `${selectedSet.coins} <img src="icons/coin.jpg" alt="Coins" style="width: 24px; vertical-align: middle;"> ${currentLang === "en" ? "Added" : "Добавлено"}`);
                     }
                     localStorage.setItem("users", JSON.stringify(users));
                     console.log(`Processed payment for user: ${currentUser}. VIP: ${users[currentUser].vip || false}, Coins: ${users[currentUser].coins || 0}`);
