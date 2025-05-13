@@ -41,10 +41,10 @@ const paymentSets = [
 ];
 
 const paymentMethods = [
-    { value: "credit_card", label: { en: "Bank Card", ru: "Банковская карта" } },
+    { value: "bank_card", label: { en: "Bank Card", ru: "Банковская карта" } },
     { value: "paypal", label: { en: "PayPal", ru: "PayPal" } },
-    { value: "googlepay", label: { en: "Google Pay", ru: "Google Pay" } },
-    { value: "applepay", label: { en: "Apple Pay", ru: "Apple Pay" } }
+    { value: "googlepay", label: { en: "GooglePay", ru: "GooglePay" } },
+    { value: "applepay", label: { en: "ApplePay", ru: "ApplePay" } }
 ];
 
 let currentLang = localStorage.getItem("gameLanguage") || "en";
