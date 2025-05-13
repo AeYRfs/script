@@ -6,7 +6,6 @@
     <title>Authentication - Chemistry Game</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-        
         @import url('https://fonts.googleapis.com/css2?family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
         
         :root {
@@ -83,7 +82,28 @@
             font-weight: bold;
         }
 
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        #menuButton {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            width: 40px;
+            height: 40px;
+        }
+
+        #menuButton svg {
+            width: 24px;
+            height: 24px;
+            fill: #333;
+        }
+
         #authContainer {
+            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -94,14 +114,15 @@
         .wrapper {
             box-sizing: border-box;
             background-color: var(--base-color);
-            min-height: 60vh;
-            width: min(40%, 600px);
             padding: 20px;
             border-radius: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            width: min(40%, 600px);
+            min-height: 400px;
+            margin-top: 20px;
         }
 
         h1 {
@@ -369,22 +390,23 @@
         .modal {
             display: none;
             position: fixed;
-            top: 0;
+            top: 30px;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6);
+            background: transparent;
             justify-content: center;
             align-items: center;
             z-index: 2000;
         }
 
         .modal-content {
-            background: #fff;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
             padding: 25px;
             border-radius: 12px;
             text-align: center;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
             max-width: 350px;
             width: 90%;
             animation: zoomIn 0.3s ease-in-out;
@@ -397,63 +419,101 @@
             font-weight: bold;
         }
 
-        .modal-buttons {
-            display: flex;
-            justify-content: space-around;
-            gap: 10px;
-        }
-
-        .modal-buttons button {
-            background: #4CAF50;
-            color: white;
+        .modal-content button {
+            background: none;
+            color: #fff;
             border: none;
             padding: 10px 20px;
-            border-radius: 8px;
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            transform: translateY(0);
+            margin: 5px;
+            width: 100%;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        .modal-buttons button:hover {
-            background: #45a049;
+        .modal-content button:hover {
+            background: #000;
             transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .modal-buttons button:active {
+        .modal-content button:active {
             transform: translateY(1px);
-            box-shadow: none;
         }
 
-        .modal-buttons button:last-child {
-            background: #d32f2f;
+        .menu-modal {
+            justify-content: flex-start;
         }
 
-        .modal-buttons button:last-child:hover {
-            background: #b71c1c;
+        .menu-content {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            width: 100%;
+            height: 100%;
+            padding-top: 10px;
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+            animation: slideInLeft 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            margin-top: 60px;
+            box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        @media (max-width: 1100px) {
+        .menu-content button {
+            background: #f6f6f6d6;
+            color: #000;
+            border: none;
+            padding: 12px;
+            margin: 0;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            width: 100%;
+        }
+
+        .menu-content button:hover {
+            background: #ffffffcd;
+            transform: translateY(-2px);
+        }
+
+        .menu-content button:active {
+            transform: translateY(1px);
+        }
+
+        @media (max-width: 1080px) {
             .wrapper {
                 width: 100%;
                 border-radius: 0;
+                min-height: auto;
             }
-
             .level-grid {
                 grid-template-columns: 1fr;
             }
+            .header-buttons {
+                display: none;
+            }
         }
 
-        @media (min-width: 1100px) {
+        @media (min-width: 1081px) {
+            header button#menuButton {
+                display: none;
+            }
+            .header-buttons {
+                display: flex;
+            }
+            .wrapper {
+                border-radius: 20px;
+            }
             .level-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            .menu-modal {
+                display: none !important;
             }
         }
 
         @keyframes fadeIn {
-            from { opacity dégage0; }
+            from { opacity: 0; }
             to { opacity: 1; }
         }
 
@@ -476,6 +536,11 @@
             0% { transform: scale(0); }
             50% { transform: scale(1.5); }
             100% { transform: scale(1); }
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
     </style>
 </head>
