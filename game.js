@@ -188,7 +188,7 @@ const background = new Image();
 const player = {
     x: 50,
     y: 50,
-    size: 50,
+    size: 100,
     image: new Image()
 };
 player.image.src = "icons/player.jpg";
