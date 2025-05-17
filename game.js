@@ -186,9 +186,9 @@ document.body.appendChild(modal);
 
 const background = new Image();
 const player = {
-    x: 150,
-    y: 150,
-    size: 400,
+    x: 50,
+    y: 50,
+    size: 50,
     image: new Image()
 };
 player.image.src = "icons/player.jpg";
