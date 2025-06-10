@@ -24,7 +24,34 @@
             align-items: center;
             padding: 20px;
         }
-
+        header {
+            background: #000;
+            height: 50px;
+            width: 100%;
+            position: fixed;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 0;
+            top: 0;
+            z-index: 1000;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 300px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transform: skewX(-20deg);
+            animation: shine 4s infinite;
+        }
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
         .container {
             max-width: 800px;
             width: 100%;
