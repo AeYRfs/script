@@ -19,74 +19,20 @@
             background: linear-gradient(135deg, #2c3e50, #3498db);
             color: #fff;
             min-height: 100vh;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background: rgba(0, 0, 0, 0.5);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        header button, header p {
-            font-family: 'Sansation', sans-serif;
-            font-size: 14px;
-            margin: 0 10px;
-        }
-
-        header button {
-            background: #3498db;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: #fff;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        header button:hover {
-            background: #2980b9;
-        }
-
-        #gameCanvas {
-            width: 100%;
-            height: calc(100vh - 60px);
-            margin-top: 60px;
-        }
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 60px;
-            width: 250px;
-            height: calc(100vh - 60px);
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
             padding: 20px;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-            z-index: 999;
         }
 
-        .sidebar.open {
-            transform: translateX(0);
-        }
-
-        .hamburger {
-            display: none;
-            font-size: 24px;
-            background: none;
-            border: none;
-            color: #fff;
-            cursor: pointer;
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
 
         .language-switcher {
@@ -98,14 +44,13 @@
         .language-switcher button {
             background: #3498db;
             border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
             color: #fff;
             font-family: 'Sansation', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             cursor: pointer;
             transition: background 0.3s;
-            width: 100%;
         }
 
         .language-switcher button:hover {
@@ -118,21 +63,21 @@
 
         .guide-buttons {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 10px;
+            margin-bottom: 20px;
         }
 
         .guide-buttons button {
             background: #3498db;
             border: none;
-            padding: 12px;
-            border-radius: 20px;
+            padding: 12px 24px;
+            border-radius: 25px;
             color: #fff;
             font-family: 'Sansation', sans-serif;
             font-size: 16px;
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
-            text-align: left;
         }
 
         .guide-buttons button:hover {
@@ -149,7 +94,6 @@
             padding: 20px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 10px;
-            margin-top: 20px;
             font-size: 16px;
             line-height: 1.6;
         }
@@ -161,137 +105,35 @@
         h2 {
             font-family: 'Sansation', sans-serif;
             margin-bottom: 10px;
-            font-size: 20px;
+            font-size: 24px;
             color: #ecf0f1;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: #fff;
-            color: #333;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 90%;
-            position: relative;
-        }
-
-        .close-button {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        #answerButton {
-            background: #3498db;
+        .exit-button {
+            background: #e74c3c;
             border: none;
             padding: 10px 20px;
-            border-radius: 20px;
-            color: #fff;
-            cursor: pointer;
-            font-family: 'Sansation', sans-serif;
-        }
-
-        #answerButton:hover {
-            background: #2980b9;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 999;
-        }
-
-        .controls button {
-            background: #3498db;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
+            border-radius: 25px;
             color: #fff;
             font-family: 'Sansation', sans-serif;
-            font-size: 14px;
+            font-size: 16px;
             cursor: pointer;
+            margin-top: 20px;
             transition: background 0.3s;
         }
 
-        .controls button:hover {
-            background: #2980b9;
+        .exit-button:hover {
+            background: #c0392b;
         }
 
-        @media (min-width: 769px) {
-            .sidebar {
-                transform: translateX(0);
-                width: 250px;
-                background: rgba(255, 255, 255, 0.15);
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
             }
 
-            #gameCanvas {
-                margin-left: 250px;
-                width: calc(100% - 250px);
-            }
-
-            .hamburger {
-                display: none;
-            }
-
-            .controls {
-                bottom: 20px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-
-            .sidebar {
-                width: 80%;
-                max-width: 300px;
-            }
-
-            .controls {
-                flex-wrap: wrap;
-                justify-content: center;
-                padding: 10px;
-                background: rgba(0, 0, 0, 0.5);
-                border-radius: 10px;
-            }
-
-            .controls button {
-                font-size: 12px;
-                padding: 8px;
+            .guide-buttons button, .language-switcher button, .exit-button {
+                padding: 8px 16px;
+                font-size: 14px;
             }
 
             .guide-content {
@@ -299,24 +141,18 @@
             }
 
             h2 {
-                font-size: 18px;
-            }
-
-            header p, header button {
-                font-size: 12px;
+                font-size: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <header id="header"></header>
-    <button class="hamburger" id="hamburger">☰</button>
-    <div class="sidebar" id="sidebar">
+    <div class="container">
         <div class="language-switcher" id="languageSwitcher"></div>
         <div class="guide-buttons" id="guideButtons"></div>
         <div id="guideContent"></div>
+        <button class="exit-button" onclick="location.href='auth.html'">Exit</button>
     </div>
-    <div id="gameContainer"></div>
     <script src="info.js"></script>
 </body>
 </html>
