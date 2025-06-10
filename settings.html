@@ -20,38 +20,32 @@
             color: #fff;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             padding: 20px;
         }
+
         header {
-            background: #000;
+            background: rgba(0, 0, 0, 0.5);
             height: 50px;
             width: 100%;
             position: fixed;
+            top: 0;
+            left: 0;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: center;
             align-items: center;
-            padding: 0;
-            top: 0;
             z-index: 1000;
+            backdrop-filter: blur(5px);
         }
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 300px;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-20deg);
-            animation: shine 4s infinite;
+
+        header h1 {
+            font-family: 'Sansation', sans-serif;
+            font-size: 24px;
+            color: #ecf0f1;
+            margin: 0;
+            text-align: center;
         }
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 100%; }
-            100% { left: 100%; }
-        }
+
         .container {
             max-width: 800px;
             width: 100%;
@@ -63,6 +57,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-top: 70px; /* Offset for fixed header */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .parameters {
@@ -87,6 +84,7 @@
             font-size: 20px;
             font-weight: bold;
             color: #ecf0f1;
+            text-align: center;
         }
 
         .settings-option select {
@@ -257,6 +255,10 @@
                 padding: 15px;
             }
 
+            header h1 {
+                font-size: 20px;
+            }
+
             .settings-option label {
                 font-size: 18px;
             }
@@ -284,6 +286,9 @@
     </style>
 </head>
 <body>
+    <header>
+        <h1>Settings</h1>
+    </header>
     <div class="container">
         <div class="parameters" id="parameters"></div>
         <div class="settings-buttons" id="settingsButtons"></div>
