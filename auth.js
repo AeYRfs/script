@@ -221,6 +221,20 @@ function handleAuth(event, isSignup) {
     }
 }
 
+function markLevelCompleted(level) {
+    const completedLevels = JSON.parse(localStorage.getItem(`progress_${currentUser}`)) || [];
+    if (!completedLevels.includes(level)) {
+        completedLevels.push(level);
+        if (typeof level === 'number' && level < 10) {
+            const nextLevel = level + 1;
+            if (!completedLevels.includes(nextLevel)) {
+                completedLevels.push(nextLevel);
+            }
+        }
+        localStorage.setItem(`progress_${currentUser}`, JSON.stringify(completedLevels));
+    }
+}
+
 function showLevelSelection() {
     const authContainer = document.getElementById("authContainer");
     authContainer.innerHTML = `
@@ -236,7 +250,7 @@ function showLevelSelection() {
     const customLevels = users[currentUser]?.customLevels || [];
 
     for (let i = 1; i <= 10; i++) {
-        const isUnlocked = i === 1 || completedLevels.includes(i - 1);
+        const isUnlocked = i === 1 || completedLevels.includes(i - 1) || completedLevels.includes(i);
         const isCompleted = completedLevels.includes(i);
 
         let difficulty = languages[currentLang].easy;
@@ -319,6 +333,12 @@ function skipLevel(level) {
         const completedLevels = JSON.parse(localStorage.getItem(`progress_${currentUser}`)) || [];
         if (!completedLevels.includes(level)) {
             completedLevels.push(level);
+            if (typeof level === 'number' && level < 10) {
+                const nextLevel = level + 1;
+                if (!completedLevels.includes(nextLevel)) {
+                    completedLevels.push(nextLevel);
+                }
+            }
             localStorage.setItem(`progress_${currentUser}`, JSON.stringify(completedLevels));
         }
 
