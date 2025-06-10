@@ -6,290 +6,342 @@
     <title>Create Level - Chemistry Game</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-        
         @import url('https://fonts.googleapis.com/css2?family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
-        
-        button {
-            font-family: 'Poppins', Arial, sans-serif;
-            font-family: 'Sansation', Arial, sans-serif;
-        }
-     
-        body {
+
+        * {
             margin: 0;
-            font-family: 'Poppins', Arial, sans-serif;
-            font-family: 'Sansation', Arial, sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('icons/background.jpg') repeat center center fixed;
-            background-size: auto;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
             color: #fff;
             min-height: 100vh;
-            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
         }
+
         header {
-            background: #000;
+            background: rgba(0, 0, 0, 0.5);
             height: 50px;
             width: 100%;
             position: fixed;
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
+            top: 0;
             left: 0;
-            padding: 0;
-            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 1000;
+            backdrop-filter: blur(5px);
         }
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 300px;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-20deg);
-            animation: shine 4s infinite;
+
+        header h1 {
+            font-family: 'Sansation', sans-serif;
+            font-size: 24px;
+            color: #ecf0f1;
+            margin: 0;
+            text-align: center;
         }
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 100%; }
-            100% { left: 100%; }
-        }
+
         .create-level-container {
-            margin: 0 20px;
-            padding-top: 60px;
-            box-sizing: border-box;
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 70px;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
         .form-group {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
         }
+
         .form-group label {
+            font-family: 'Sansation', sans-serif;
+            font-size: 20px;
             font-weight: bold;
-            font-size: 26px;
+            color: #ecf0f1;
+            text-align: center;
         }
+
         .form-group input, .form-group select {
-            background: #333;
+            background: #3498db;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
             color: #fff;
-            border: 1px solid #555;
-            border-radius: 5px;
-            padding: 10px;
+            font-family: 'Sansation', sans-serif;
             font-size: 16px;
             width: 100%;
-            max-width: 200px;
-            height: 48px;
-            line-height: 1.5;
-            box-sizing: border-box;
             transition: background 0.3s, transform 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-        .form-group input[type="file"] {
-            height: auto;
-            padding: 5px;
-        }
-        .form-group select {
-            appearance: none;
             text-align: center;
-            cursor: pointer;
         }
-        .form-group input::before, .form-group select::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-20deg);
-            animation: shine 4s infinite;
+
+        .form-group input[type="file"] {
+            padding: 8px;
+            background: none;
+            border: 1px solid #3498db;
+            border-radius: 10px;
+            text-align: left;
         }
+
         .form-group input:hover, .form-group select:hover {
-            background: #555;
+            background: #2980b9;
             transform: scale(1.05);
         }
+
         .form-group input:active, .form-group select:active {
-            background: #222;
+            background: #1f6391;
             transform: scale(0.95);
         }
+
         .form-group input:focus, .form-group select:focus {
             outline: none;
-            border-color: #4caf50;
+            background: #2980b9;
         }
+
         .question-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
+            gap: 15px;
+            width: 100%;
+            max-width: 300px;
         }
+
         .question-fields {
             display: flex;
             flex-direction: column;
             gap: 10px;
-            padding: 10px;
             width: 100%;
-            max-width: 300px;
         }
+
         .question-entry {
-            background: #222;
-            border: 1px solid #444;
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
             padding: 10px;
             margin-bottom: 10px;
         }
-        .create-level-buttons {
+
+        .create-level-buttons, .add-question {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            padding: 10px;
+            width: 100%;
+            max-width: 300px;
         }
+
         .create-level-buttons button, .add-question {
-            background: #333;
+            background: #3498db;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
             color: #fff;
-            border: 1px solid #555;
-            border-radius: 5px;
-            padding: 10px;
+            font-family: 'Sansation', sans-serif;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
-            max-width: 200px;
-            height: 48px;
-            line-height: 1.5;
-            box-sizing: border-box;
             transition: background 0.3s, transform 0.2s;
-            position: relative;
-            overflow: hidden;
         }
-        .create-level-buttons button::before, .add-question::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-20deg);
-            animation: shine 4s infinite;
-        }
+
         .create-level-buttons button:hover, .add-question:hover {
-            background: #555;
+            background: #2980b9;
             transform: scale(1.05);
         }
+
         .create-level-buttons button:active, .add-question:active {
-            background: #222;
+            background: #1f6391;
             transform: scale(0.95);
         }
+
         #saveButton {
-            background: #388e3c;
-            border: 1px solid #2e7d32;
+            background: #2ecc71;
         }
+
         #saveButton:hover {
-            background: #4caf50;
+            background: #27ae60;
         }
+
         #saveButton:active {
-            background: #2e7d32;
+            background: #219653;
         }
+
         #backButton {
-            background: #d32f2f;
-            border: 1px solid #b71c1c;
+            background: #e74c3c;
         }
+
         #backButton:hover {
-            background: #f44336;
+            background: #c0392b;
         }
+
         #backButton:active {
-            background: #b71c1c;
+            background: #992d22;
         }
+
         .add-question {
-            background: #0288d1;
-            border: 1px solid #01579b;
+            background: #3498db;
         }
+
         .add-question:hover {
-            background: #03a9f4;
+            background: #2980b9;
         }
+
         .add-question:active {
-            background: #01579b;
+            background: #1f6391;
         }
+
         .created-levels {
-            margin: 20px;
-            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 10px;
-        }
-        .level-card {
-            background: #333;
-            border: 1px solid #555;
-            border-radius: 5px;
-            padding: 10px;
             width: 100%;
             max-width: 300px;
+            margin-top: 20px;
+        }
+
+        .level-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 10px;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: transform 0.2s;
+            transition: transform 0.3s;
         }
+
         .level-card:hover {
             transform: scale(1.02);
         }
+
         .level-info {
             flex-grow: 1;
         }
+
         .level-info h3 {
-            margin: 0;
+            font-family: 'Sansation', sans-serif;
             font-size: 18px;
-        }
-        .level-info p {
+            color: #ecf0f1;
             margin: 5px 0;
-            font-size: 14px;
         }
+
+        .level-info p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #ecf0f1;
+            margin: 5px 0;
+        }
+
         .level-card button {
-            background: #d32f2f;
+            background: #e74c3c;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
             color: #fff;
-            border: 1px solid #b71c1c;
-            border-radius: 5px;
-            padding: 5px 10px;
+            font-family: 'Sansation', sans-serif;
             font-size: 14px;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
+            transition: background 0.3s, transform 0.3s;
         }
+
         .level-card button:hover {
-            background: #f44336;
+            background: #c0392b;
             transform: scale(1.05);
         }
+
         .level-card button:active {
-            background: #b71c1c;
+            background: #992d22;
             transform: scale(0.95);
         }
+
         .modal {
             display: none;
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 300px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
             justify-content: center;
+            align-items: center;
             z-index: 2000;
         }
+
         .modal-content {
-            background: #fff;
-            padding: 15px;
-            border-radius: 5px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-        .modal-content p {
-            margin: 0 0 10px;
-            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
             color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90%;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .create-level-container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 20px;
+            }
+
+            .form-group label {
+                font-size: 18px;
+            }
+
+            .form-group input, .form-group select, .create-level-buttons button, .add-question button {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .modal-content {
+                width: 90%;
+                padding: 15px;
+            }
+
+            .modal-content p {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Create Level</h1>
+    </header>
+    <div class="create-level-container">
+        <div class="form-group" id="formGroup"></div>
+        <div class="question-container" id="questionContainer"></div>
+        <div class="create-level-buttons" id="createLevelButtons"></div>
+        <div class="created-levels" id="createdLevels"></div>
+        <div id="modal"></div>
+    </div>
     <script src="createLevel.js"></script>
 </body>
 </html>
