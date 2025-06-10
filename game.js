@@ -41,124 +41,166 @@ let isLevelCompleted = false;
 
 const standardLevels = {
     1: [
-        { 
-            name: "H2O", x: 100, y: 150, color: "#2ca02c", shape: "circle", 
-            question: { en: "What is H2O called?", ru: "Как называется H2O?" }, 
-            answer: { en: "water", ru: "вода" } 
-        },
-        { 
-            name: "CO2", x: 120, y: 100, color: "#ff7f0e", shape: "circle", 
-            question: { en: "What is CO2 called?", ru: "Как называется CO2?" }, 
-            answer: { en: "carbon dioxide", ru: "углекислый газ" } 
-        }
+        { name: "H2O", x: 100, y: 150, color: "#2ca02c", shape: "circle", question: { en: "What is H2O called?", ru: "Как называется H2O?" }, answer: { en: "water", ru: "вода" } },
+        { name: "CO2", x: 120, y: 100, color: "#ff7f0e", shape: "circle", question: { en: "What is CO2 called?", ru: "Как называется CO2?" }, answer: { en: "carbon dioxide", ru: "углекислый газ" } },
+        { name: "O2", x: 150, y: 200, color: "#d62728", shape: "circle", question: { en: "What is O2 called?", ru: "Как называется O2?" }, answer: { en: "oxygen", ru: "кислород" } },
+        { name: "N2", x: 200, y: 120, color: "#17becf", shape: "circle", question: { en: "What is N2 called?", ru: "Как называется N2?" }, answer: { en: "nitrogen", ru: "азот" } },
+        { name: "CH4", x: 180, y: 160, color: "#1f77b4", shape: "circle", question: { en: "What is CH4 called?", ru: "Как называется CH4?" }, answer: { en: "methane", ru: "метан" } }
     ],
     2: [
-        { 
-            name: "NaCl", x: 20, y: 140, color: "#d62728", shape: "circle", 
-            question: { en: "What is NaCl called?", ru: "Как называется NaCl?" }, 
-            answer: { en: "salt", ru: "соль" } 
-        },
-        { 
-            name: "Na", x: 130, y: 170, color: "#17becf", shape: "circle", 
-            question: { en: "What is Na called?", ru: "Как называется Na?" }, 
-            answer: { en: "sodium", ru: "натрий" } 
-        }
+        { name: "NaCl", x: 20, y: 140, color: "#d62728", shape: "circle", question: { en: "What is NaCl called?", ru: "Как называется NaCl?" }, answer: { en: "salt", ru: "соль" } },
+        { name: "Na", x: 130, y: 170, color: "#17becf", shape: "circle", question: { en: "What is Na called?", ru: "Как называется Na?" }, answer: { en: "sodium", ru: "натрий" } },
+        { name: "K", x: 160, y: 100, color: "#2ca02c", shape: "circle", question: { en: "What is K called?", ru: "Как называется K?" }, answer: { en: "potassium", ru: "калий" } },
+        { name: "Cl2", x: 80, y: 180, color: "#ff7f0e", shape: "circle", question: { en: "What is Cl2 called?", ru: "Как называется Cl2?" }, answer: { en: "chlorine", ru: "хлор" } },
+        { name: "H2", x: 200, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is H2 called?", ru: "Как называется H2?" }, answer: { en: "hydrogen", ru: "водород" } },
+        { name: "SO2", x: 140, y: 200, color: "#8c564b", shape: "circle", question: { en: "What is SO2 called?", ru: "Как называется SO2?" }, answer: { en: "sulfur dioxide", ru: "диоксид серы" } },
+        { name: "NH3", x: 90, y: 110, color: "#e377c2", shape: "circle", question: { en: "What is NH3 called?", ru: "Как называется NH3?" }, answer: { en: "ammonia", ru: "аммиак" } }
     ],
     3: [
-        { 
-            name: "OH", x: 50, y: 200, color: "#ff7f0e", shape: "circle", 
-            question: { en: "What is OH called?", ru: "Как называется OH?" }, 
-            answer: { en: "hydroxide", ru: "гидроксид" } 
-        },
-        { 
-            name: "O²", x: 200, y: 150, color: "#d62728", shape: "circle", 
-            question: { en: "What is O² called?", ru: "Как называется O²?" }, 
-            answer: { en: "oxide", ru: "оксид" } 
-        }
+        { name: "OH", x: 50, y: 200, color: "#ff7f0e", shape: "circle", question: { en: "What is OH called?", ru: "Как называется OH?" }, answer: { en: "hydroxide", ru: "гидроксид" } },
+        { name: "O²", x: 200, y: 150, color: "#d62728", shape: "circle", question: { en: "What is O² called?", ru: "Как называется O²?" }, answer: { en: "oxide", ru: "оксид" } },
+        { name: "HCl", x: 80, y: 120, color: "#1f77b4", shape: "circle", question: { en: "What is HCl called?", ru: "Как называется HCl?" }, answer: { en: "hydrochloric acid", ru: "соляная кислота" } },
+        { name: "Ca", x: 150, y: 180, color: "#9467bd", shape: "circle", question: { en: "What is Ca called?", ru: "Как называется Ca?" }, answer: { en: "calcium", ru: "кальций" } },
+        { name: "Mg", x: 110, y: 140, color: "#8c564b", shape: "circle", question: { en: "What is Mg called?", ru: "Как называется Mg?" }, answer: { en: "magnesium", ru: "магний" } },
+        { name: "Fe", x: 170, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is Fe called?", ru: "Как называется Fe?" }, answer: { en: "iron", ru: "железо" } },
+        { name: "Al", x: 130, y: 190, color: "#7f7f7f", shape: "circle", question: { en: "What is Al called?", ru: "Как называется Al?" }, answer: { en: "aluminum", ru: "алюминий" } },
+        { name: "HNO3", x: 90, y: 130, color: "#bcbd22", shape: "circle", question: { en: "What is HNO3 called?", ru: "Как называется HNO3?" }, answer: { en: "nitric acid", ru: "азотная кислота" } },
+        { name: "NaOH", x: 140, y: 170, color: "#17becf", shape: "circle", question: { en: "What is NaOH called?", ru: "Как называется NaOH?" }, answer: { en: "sodium hydroxide", ru: "гидроксид натрия" } }
     ],
     4: [
-        { 
-            name: "HCl", x: 80, y: 120, color: "#1f77b4", shape: "circle", 
-            question: { en: "What is HCl called?", ru: "Как называется HCl?" }, 
-            answer: { en: "hydrochloric acid", ru: "соляная кислота" } 
-        },
-        { 
-            name: "NH3", x: 150, y: 180, color: "#9467bd", shape: "circle", 
-            question: { en: "What is NH3 called?", ru: "Как называется NH3?" }, 
-            answer: { en: "ammonia", ru: "аммиак" } 
-        }
+        { name: "HCl", x: 80, y: 120, color: "#1f77b4", shape: "circle", question: { en: "What is HCl called?", ru: "Как называется HCl?" }, answer: { en: "hydrochloric acid", ru: "соляная кислота" } },
+        { name: "NH3", x: 150, y: 180, color: "#9467bd", shape: "circle", question: { en: "What is NH3 called?", ru: "Как называется NH3?" }, answer: { en: "ammonia", ru: "аммиак" } },
+        { name: "CH4", x: 90, y: 130, color: "#8c564b", shape: "circle", question: { en: "What is CH4 called?", ru: "Как называется CH4?" }, answer: { en: "methane", ru: "метан" } },
+        { name: "SO2", x: 140, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is SO2 called?", ru: "Как называется SO2?" }, answer: { en: "sulfur dioxide", ru: "диоксид серы" } },
+        { name: "KCl", x: 110, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is KCl called?", ru: "Как называется KCl?" }, answer: { en: "potassium chloride", ru: "хлорид калия" } },
+        { name: "CaCO3", x: 130, y: 190, color: "#bcbd22", shape: "circle", question: { en: "What is CaCO3 called?", ru: "Как называется CaCO3?" }, answer: { en: "calcium carbonate", ru: "карбонат кальция" } },
+        { name: "H2SO4", x: 160, y: 110, color: "#2ca02c", shape: "circle", question: { en: "What is H2SO4 called?", ru: "Как называется H2SO4?" }, answer: { en: "sulfuric acid", ru: "серная кислота" } },
+        { name: "NO2", x: 120, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is NO2 called?", ru: "Как называется NO2?" }, answer: { en: "nitrogen dioxide", ru: "диоксид азота" } },
+        { name: "C6H12O6", x: 80, y: 200, color: "#d62728", shape: "circle", question: { en: "What is C6H12O6 called?", ru: "Как называется C6H12O6?" }, answer: { en: "glucose", ru: "глюкоза" } },
+        { name: "MgO", x: 140, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is MgO called?", ru: "Как называется MgO?" }, answer: { en: "magnesium oxide", ru: "оксид магния" } },
+        { name: "Al2O3", x: 90, y: 180, color: "#8c564b", shape: "circle", question: { en: "What is Al2O3 called?", ru: "Как называется Al2O3?" }, answer: { en: "aluminum oxide", ru: "оксид алюминия" } }
     ],
     5: [
-        { 
-            name: "CH4", x: 90, y: 130, color: "#8c564b", shape: "circle", 
-            question: { en: "What is CH4 called?", ru: "Как называется CH4?" }, 
-            answer: { en: "methane", ru: "метан" } 
-        },
-        { 
-            name: "SO2", x: 140, y: 160, color: "#e377c2", shape: "circle", 
-            question: { en: "What is SO2 called?", ru: "Как называется SO2?" }, 
-            answer: { en: "sulfur dioxide", ru: "диоксид серы" } 
-        }
+        { name: "CH4", x: 90, y: 130, color: "#8c564b", shape: "circle", question: { en: "What is CH4 called?", ru: "Как называется CH4?" }, answer: { en: "methane", ru: "метан" } },
+        { name: "SO2", x: 140, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is SO2 called?", ru: "Как называется SO2?" }, answer: { en: "sulfur dioxide", ru: "диоксид серы" } },
+        { name: "KCl", x: 110, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is KCl called?", ru: "Как называется KCl?" }, answer: { en: "potassium chloride", ru: "хлорид калия" } },
+        { name: "CaCO3", x: 130, y: 190, color: "#bcbd22", shape: "circle", question: { en: "What is CaCO3 called?", ru: "Как называется CaCO3?" }, answer: { en: "calcium carbonate", ru: "карбонат кальция" } },
+        { name: "Fe2O3", x: 100, y: 170, color: "#17becf", shape: "circle", question: { en: "What is Fe2O3 called?", ru: "Как называется Fe2O3?" }, answer: { en: "iron oxide", ru: "оксид железа" } },
+        { name: "H2SO4", x: 160, y: 110, color: "#2ca02c", shape: "circle", question: { en: "What is H2SO4 called?", ru: "Как называется H2SO4?" }, answer: { en: "sulfuric acid", ru: "серная кислота" } },
+        { name: "NO2", x: 120, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is NO2 called?", ru: "Как называется NO2?" }, answer: { en: "nitrogen dioxide", ru: "диоксид азота" } },
+        { name: "C6H12O6", x: 80, y: 200, color: "#d62728", shape: "circle", question: { en: "What is C6H12O6 called?", ru: "Как называется C6H12O6?" }, answer: { en: "glucose", ru: "глюкоза" } },
+        { name: "MgO", x: 140, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is MgO called?", ru: "Как называется MgO?" }, answer: { en: "magnesium oxide", ru: "оксид магния" } },
+        { name: "Al2O3", x: 90, y: 180, color: "#8c564b", shape: "circle", question: { en: "What is Al2O3 called?", ru: "Как называется Al2O3?" }, answer: { en: "aluminum oxide", ru: "оксид алюминия" } },
+        { name: "HNO3", x: 110, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is HNO3 called?", ru: "Как называется HNO3?" }, answer: { en: "nitric acid", ru: "азотная кислота" } },
+        { name: "NaOH", x: 150, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is NaOH called?", ru: "Как называется NaOH?" }, answer: { en: "sodium hydroxide", ru: "гидроксид натрия" } },
+        { name: "CO", x: 170, y: 120, color: "#2ca02c", shape: "circle", question: { en: "What is CO called?", ru: "Как называется CO?" }, answer: { en: "carbon monoxide", ru: "угарный газ" } }
     ],
     6: [
-        { 
-            name: "KCl", x: 110, y: 140, color: "#7f7f7f", shape: "circle", 
-            question: { en: "What is KCl called?", ru: "Как называется KCl?" }, 
-            answer: { en: "potassium chloride", ru: "хлорид калия" } 
-        },
-        { 
-            name: "CaCO3", x: 130, y: 190, color: "#bcbd22", shape: "circle", 
-            question: { en: "What is CaCO3 called?", ru: "Как называется CaCO3?" }, 
-            answer: { en: "calcium carbonate", ru: "карбонат кальция" } 
-        }
+        { name: "KCl", x: 110, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is KCl called?", ru: "Как называется KCl?" }, answer: { en: "potassium chloride", ru: "хлорид калия" } },
+        { name: "CaCO3", x: 130, y: 190, color: "#bcbd22", shape: "circle", question: { en: "What is CaCO3 called?", ru: "Как называется CaCO3?" }, answer: { en: "calcium carbonate", ru: "карбонат кальция" } },
+        { name: "Fe2O3", x: 100, y: 170, color: "#17becf", shape: "circle", question: { en: "What is Fe2O3 called?", ru: "Как называется Fe2O3?" }, answer: { en: "iron oxide", ru: "оксид железа" } },
+        { name: "H2SO4", x: 160, y: 110, color: "#2ca02c", shape: "circle", question: { en: "What is H2SO4 called?", ru: "Как называется H2SO4?" }, answer: { en: "sulfuric acid", ru: "серная кислота" } },
+        { name: "NO2", x: 120, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is NO2 called?", ru: "Как называется NO2?" }, answer: { en: "nitrogen dioxide", ru: "диоксид азота" } },
+        { name: "C6H12O6", x: 80, y: 200, color: "#d62728", shape: "circle", question: { en: "What is C6H12O6 called?", ru: "Как называется C6H12O6?" }, answer: { en: "glucose", ru: "глюкоза" } },
+        { name: "MgO", x: 140, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is MgO called?", ru: "Как называется MgO?" }, answer: { en: "magnesium oxide", ru: "оксид магния" } },
+        { name: "Al2O3", x: 90, y: 180, color: "#8c564b", shape: "circle", question: { en: "What is Al2O3 called?", ru: "Как называется Al2O3?" }, answer: { en: "aluminum oxide", ru: "оксид алюминия" } },
+        { name: "HNO3", x: 110, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is HNO3 called?", ru: "Как называется HNO3?" }, answer: { en: "nitric acid", ru: "азотная кислота" } },
+        { name: "NaOH", x: 150, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is NaOH called?", ru: "Как называется NaOH?" }, answer: { en: "sodium hydroxide", ru: "гидроксид натрия" } },
+        { name: "CO", x: 170, y: 120, color: "#2ca02c", shape: "circle", question: { en: "What is CO called?", ru: "Как называется CO?" }, answer: { en: "carbon monoxide", ru: "угарный газ" } },
+        { name: "H2O2", x: 100, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is H2O2 called?", ru: "Как называется H2O2?" }, answer: { en: "hydrogen peroxide", ru: "перекись водорода" } },
+        { name: "N2O", x: 130, y: 170, color: "#d62728", shape: "circle", question: { en: "What is N2O called?", ru: "Как называется N2O?" }, answer: { en: "nitrous oxide", ru: "закись азота" } },
+        { name: "KOH", x: 160, y: 110, color: "#17becf", shape: "circle", question: { en: "What is KOH called?", ru: "Как называется KOH?" }, answer: { en: "potassium hydroxide", ru: "гидроксид калия" } },
+        { name: "CaO", x: 120, y: 190, color: "#1f77b4", shape: "circle", question: { en: "What is CaO called?", ru: "Как называется CaO?" }, answer: { en: "calcium oxide", ru: "оксид кальция" } }
     ],
     7: [
-        { 
-            name: "Fe2O3", x: 100, y: 170, color: "#17becf", shape: "circle", 
-            question: { en: "What is Fe2O3 called?", ru: "Как называется Fe2O3?" }, 
-            answer: { en: "iron oxide", ru: "оксид железа" } 
-        },
-        { 
-            name: "H2SO4", x: 160, y: 110, color: "#2ca02c", shape: "circle", 
-            question: { en: "What is H2SO4 called?", ru: "Как называется H2SO4?" }, 
-            answer: { en: "sulfuric acid", ru: "серная кислота" } 
-        }
+        { name: "Fe2O3", x: 100, y: 170, color: "#17becf", shape: "circle", question: { en: "What is Fe2O3 called?", ru: "Как называется Fe2O3?" }, answer: { en: "iron oxide", ru: "оксид железа" } },
+        { name: "H2SO4", x: 160, y: 110, color: "#2ca02c", shape: "circle", question: { en: "What is H2SO4 called?", ru: "Как называется H2SO4?" }, answer: { en: "sulfuric acid", ru: "серная кислота" } },
+        { name: "NO2", x: 120, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is NO2 called?", ru: "Как называется NO2?" }, answer: { en: "nitrogen dioxide", ru: "диоксид азота" } },
+        { name: "C6H12O6", x: 80, y: 200, color: "#d62728", shape: "circle", question: { en: "What is C6H12O6 called?", ru: "Как называется C6H12O6?" }, answer: { en: "glucose", ru: "глюкоза" } },
+        { name: "MgO", x: 140, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is MgO called?", ru: "Как называется MgO?" }, answer: { en: "magnesium oxide", ru: "оксид магния" } },
+        { name: "Al2O3", x: 90, y: 180, color: "#8c564b", shape: "circle", question: { en: "What is Al2O3 called?", ru: "Как называется Al2O3?" }, answer: { en: "aluminum oxide", ru: "оксид алюминия" } },
+        { name: "HNO3", x: 110, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is HNO3 called?", ru: "Как называется HNO3?" }, answer: { en: "nitric acid", ru: "азотная кислота" } },
+        { name: "NaOH", x: 150, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is NaOH called?", ru: "Как называется NaOH?" }, answer: { en: "sodium hydroxide", ru: "гидроксид натрия" } },
+        { name: "CO", x: 170, y: 120, color: "#2ca02c", shape: "circle", question: { en: "What is CO called?", ru: "Как называется CO?" }, answer: { en: "carbon monoxide", ru: "угарный газ" } },
+        { name: "H2O2", x: 100, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is H2O2 called?", ru: "Как называется H2O2?" }, answer: { en: "hydrogen peroxide", ru: "перекись водорода" } },
+        { name: "N2O", x: 130, y: 170, color: "#d62728", shape: "circle", question: { en: "What is N2O called?", ru: "Как называется N2O?" }, answer: { en: "nitrous oxide", ru: "закись азота" } },
+        { name: "KOH", x: 160, y: 110, color: "#17becf", shape: "circle", question: { en: "What is KOH called?", ru: "Как называется KOH?" }, answer: { en: "potassium hydroxide", ru: "гидроксид калия" } },
+        { name: "CaO", x: 120, y: 190, color: "#1f77b4", shape: "circle", question: { en: "What is CaO called?", ru: "Как называется CaO?" }, answer: { en: "calcium oxide", ru: "оксид кальция" } },
+        { name: "SO3", x: 80, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is SO3 called?", ru: "Как называется SO3?" }, answer: { en: "sulfur trioxide", ru: "триоксид серы" } },
+        { name: "H3PO4", x: 140, y: 160, color: "#8c564b", shape: "circle", question: { en: "What is H3PO4 called?", ru: "Как называется H3PO4?" }, answer: { en: "phosphoric acid", ru: "фосфорная кислота" } },
+        { name: "Na2CO3", x: 110, y: 180, color: "#e377c2", shape: "circle", question: { en: "What is Na2CO3 called?", ru: "Как называется Na2CO3?" }, answer: { en: "sodium carbonate", ru: "карбонат натрия" } },
+        { name: "FeCl3", x: 150, y: 120, color: "#7f7f7f", shape: "circle", question: { en: "What is FeCl3 called?", ru: "Как называется FeCl3?" }, answer: { en: "iron chloride", ru: "хлорид железа" } }
     ],
     8: [
-        { 
-            name: "NO2", x: 120, y: 150, color: "#ff7f0e", shape: "circle", 
-            question: { en: "What is NO2 called?", ru: "Как называется NO2?" }, 
-            answer: { en: "nitrogen dioxide", ru: "диоксид азота" } 
-        },
-        { 
-            name: "C6H12O6", x: 80, y: 200, color: "#d62728", shape: "circle", 
-            question: { en: "What is C6H12O6 called?", ru: "Как называется C6H12O6?" }, 
-            answer: { en: "glucose", ru: "глюкоза" } 
-        }
+        { name: "NO2", x: 120, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is NO2 called?", ru: "Как называется NO2?" }, answer: { en: "nitrogen dioxide", ru: "диоксид азота" } },
+        { name: "C6H12O6", x: 80, y: 200, color: "#d62728", shape: "circle", question: { en: "What is C6H12O6 called?", ru: "Как называется C6H12O6?" }, answer: { en: "glucose", ru: "глюкоза" } },
+        { name: "MgO", x: 140, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is MgO called?", ru: "Как называется MgO?" }, answer: { en: "magnesium oxide", ru: "оксид магния" } },
+        { name: "Al2O3", x: 90, y: 180, color: "#8c564b", shape: "circle", question: { en: "What is Al2O3 called?", ru: "Как называется Al2O3?" }, answer: { en: "aluminum oxide", ru: "оксид алюминия" } },
+        { name: "HNO3", x: 110, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is HNO3 called?", ru: "Как называется HNO3?" }, answer: { en: "nitric acid", ru: "азотная кислота" } },
+        { name: "NaOH", x: 150, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is NaOH called?", ru: "Как называется NaOH?" }, answer: { en: "sodium hydroxide", ru: "гидроксид натрия" } },
+        { name: "CO", x: 170, y: 120, color: "#2ca02c", shape: "circle", question: { en: "What is CO called?", ru: "Как называется CO?" }, answer: { en: "carbon monoxide", ru: "угарный газ" } },
+        { name: "H2O2", x: 100, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is H2O2 called?", ru: "Как называется H2O2?" }, answer: { en: "hydrogen peroxide", ru: "перекись водорода" } },
+        { name: "N2O", x: 130, y: 170, color: "#d62728", shape: "circle", question: { en: "What is N2O called?", ru: "Как называется N2O?" }, answer: { en: "nitrous oxide", ru: "закись азота" } },
+        { name: "KOH", x: 160, y: 110, color: "#17becf", shape: "circle", question: { en: "What is KOH called?", ru: "Как называется KOH?" }, answer: { en: "potassium hydroxide", ru: "гидроксид калия" } },
+        { name: "CaO", x: 120, y: 190, color: "#1f77b4", shape: "circle", question: { en: "What is CaO called?", ru: "Как называется CaO?" }, answer: { en: "calcium oxide", ru: "оксид кальция" } },
+        { name: "SO3", x: 80, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is SO3 called?", ru: "Как называется SO3?" }, answer: { en: "sulfur trioxide", ru: "триоксид серы" } },
+        { name: "H3PO4", x: 140, y: 160, color: "#8c564b", shape: "circle", question: { en: "What is H3PO4 called?", ru: "Как называется H3PO4?" }, answer: { en: "phosphoric acid", ru: "фосфорная кислота" } },
+        { name: "Na2CO3", x: 110, y: 180, color: "#e377c2", shape: "circle", question: { en: "What is Na2CO3 called?", ru: "Как называется Na2CO3?" }, answer: { en: "sodium carbonate", ru: "карбонат натрия" } },
+        { name: "FeCl3", x: 150, y: 120, color: "#7f7f7f", shape: "circle", question: { en: "What is FeCl3 called?", ru: "Как называется FeCl3?" }, answer: { en: "iron chloride", ru: "хлорид железа" } },
+        { name: "CuO", x: 100, y: 140, color: "#2ca02c", shape: "circle", question: { en: "What is CuO called?", ru: "Как называется CuO?" }, answer: { en: "copper oxide", ru: "оксид меди" } },
+        { name: "ZnO", x: 130, y: 160, color: "#ff7f0e", shape: "circle", question: { en: "What is ZnO called?", ru: "Как называется ZnO?" }, answer: { en: "zinc oxide", ru: "оксид цинка" } },
+        { name: "K2CO3", x: 160, y: 180, color: "#d62728", shape: "circle", question: { en: "What is K2CO3 called?", ru: "Как называется K2CO3?" }, answer: { en: "potassium carbonate", ru: "карбонат калия" } },
+        { name: "HBr", x: 120, y: 200, color: "#17becf", shape: "circle", question: { en: "What is HBr called?", ru: "Как называется HBr?" }, answer: { en: "hydrobromic acid", ru: "бромоводородная кислота" } }
     ],
     9: [
-        { 
-            name: "MgO", x: 140, y: 130, color: "#9467bd", shape: "circle", 
-            question: { en: "What is MgO called?", ru: "Как называется MgO?" }, 
-            answer: { en: "magnesium oxide", ru: "оксид магния" } 
-        },
-        { 
-            name: "Al2O3", x: 90, y: 180, color: "#8c564b", shape: "circle", 
-            question: { en: "What is Al2O3 called?", ru: "Как называется Al2O3?" }, 
-            answer: { en: "aluminum oxide", ru: "оксид алюминия" } 
-        }
+        { name: "MgO", x: 140, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is MgO called?", ru: "Как называется MgO?" }, answer: { en: "magnesium oxide", ru: "оксид магния" } },
+        { name: "Al2O3", x: 90, y: 180, color: "#8c564b", shape: "circle", question: { en: "What is Al2O3 called?", ru: "Как называется Al2O3?" }, answer: { en: "aluminum oxide", ru: "оксид алюминия" } },
+        { name: "HNO3", x: 110, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is HNO3 called?", ru: "Как называется HNO3?" }, answer: { en: "nitric acid", ru: "азотная кислота" } },
+        { name: "NaOH", x: 150, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is NaOH called?", ru: "Как называется NaOH?" }, answer: { en: "sodium hydroxide", ru: "гидроксид натрия" } },
+        { name: "CO", x: 170, y: 120, color: "#2ca02c", shape: "circle", question: { en: "What is CO called?", ru: "Как называется CO?" }, answer: { en: "carbon monoxide", ru: "угарный газ" } },
+        { name: "H2O2", x: 100, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is H2O2 called?", ru: "Как называется H2O2?" }, answer: { en: "hydrogen peroxide", ru: "перекись водорода" } },
+        { name: "N2O", x: 130, y: 170, color: "#d62728", shape: "circle", question: { en: "What is N2O called?", ru: "Как называется N2O?" }, answer: { en: "nitrous oxide", ru: "закись азота" } },
+        { name: "KOH", x: 160, y: 110, color: "#17becf", shape: "circle", question: { en: "What is KOH called?", ru: "Как называется KOH?" }, answer: { en: "potassium hydroxide", ru: "гидроксид калия" } },
+        { name: "CaO", x: 120, y: 190, color: "#1f77b4", shape: "circle", question: { en: "What is CaO called?", ru: "Как называется CaO?" }, answer: { en: "calcium oxide", ru: "оксид кальция" } },
+        { name: "SO3", x: 80, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is SO3 called?", ru: "Как называется SO3?" }, answer: { en: "sulfur trioxide", ru: "триоксид серы" } },
+        { name: "H3PO4", x: 140, y: 160, color: "#8c564b", shape: "circle", question: { en: "What is H3PO4 called?", ru: "Как называется H3PO4?" }, answer: { en: "phosphoric acid", ru: "фосфорная кислота" } },
+        { name: "Na2CO3", x: 110, y: 180, color: "#e377c2", shape: "circle", question: { en: "What is Na2CO3 called?", ru: "Как называется Na2CO3?" }, answer: { en: "sodium carbonate", ru: "карбонат натрия" } },
+        { name: "FeCl3", x: 150, y: 120, color: "#7f7f7f", shape: "circle", question: { en: "What is FeCl3 called?", ru: "Как называется FeCl3?" }, answer: { en: "iron chloride", ru: "хлорид железа" } },
+        { name: "CuO", x: 100, y: 140, color: "#2ca02c", shape: "circle", question: { en: "What is CuO called?", ru: "Как называется CuO?" }, answer: { en: "copper oxide", ru: "оксид меди" } },
+        { name: "ZnO", x: 130, y: 160, color: "#ff7f0e", shape: "circle", question: { en: "What is ZnO called?", ru: "Как называется ZnO?" }, answer: { en: "zinc oxide", ru: "оксид цинка" } },
+        { name: "K2CO3", x: 160, y: 180, color: "#d62728", shape: "circle", question: { en: "What is K2CO3 called?", ru: "Как называется K2CO3?" }, answer: { en: "potassium carbonate", ru: "карбонат калия" } },
+        { name: "HBr", x: 120, y: 200, color: "#17becf", shape: "circle", question: { en: "What is HBr called?", ru: "Как называется HBr?" }, answer: { en: "hydrobromic acid", ru: "бромоводородная кислота" } },
+        { name: "H2CO3", x: 80, y: 150, color: "#1f77b4", shape: "circle", question: { en: "What is H2CO3 called?", ru: "Как называется H2CO3?" }, answer: { en: "carbonic acid", ru: "угольная кислота" } },
+        { name: "NH4Cl", x: 140, y: 170, color: "#9467bd", shape: "circle", question: { en: "What is NH4Cl called?", ru: "Как называется NH4Cl?" }, answer: { en: "ammonium chloride", ru: "хлорид аммония" } },
+        { name: "MgCl2", x: 110, y: 130, color: "#8c564b", shape: "circle", question: { en: "What is MgCl2 called?", ru: "Как называется MgCl2?" }, answer: { en: "magnesium chloride", ru: "хлорид магния" } },
+        { name: "CaSO4", x: 150, y: 190, color: "#e377c2", shape: "circle", question: { en: "What is CaSO4 called?", ru: "Как называется CaSO4?" }, answer: { en: "calcium sulfate", ru: "сульфат кальция" } }
     ],
     10: [
-        { 
-            name: "HNO3", x: 110, y: 160, color: "#e377c2", shape: "circle", 
-            question: { en: "What is HNO3 called?", ru: "Как называется HNO3?" }, 
-            answer: { en: "nitric acid", ru: "азотная кислота" } 
-        },
-        { 
-            name: "NaOH", x: 150, y: 140, color: "#7f7f7f", shape: "circle", 
-            question: { en: "What is NaOH called?", ru: "Как называется NaOH?" }, 
-            answer: { en: "sodium hydroxide", ru: "гидроксид натрия" } 
-        }
+        { name: "HNO3", x: 110, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is HNO3 called?", ru: "Как называется HNO3?" }, answer: { en: "nitric acid", ru: "азотная кислота" } },
+        { name: "NaOH", x: 150, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is NaOH called?", ru: "Как называется NaOH?" }, answer: { en: "sodium hydroxide", ru: "гидроксид натрия" } },
+        { name: "CO", x: 170, y: 120, color: "#2ca02c", shape: "circle", question: { en: "What is CO called?", ru: "Как называется CO?" }, answer: { en: "carbon monoxide", ru: "угарный газ" } },
+        { name: "H2O2", x: 100, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is H2O2 called?", ru: "Как называется H2O2?" }, answer: { en: "hydrogen peroxide", ru: "перекись водорода" } },
+        { name: "N2O", x: 130, y: 170, color: "#d62728", shape: "circle", question: { en: "What is N2O called?", ru: "Как называется N2O?" }, answer: { en: "nitrous oxide", ru: "закись азота" } },
+        { name: "KOH", x: 160, y: 110, color: "#17becf", shape: "circle", question: { en: "What is KOH called?", ru: "Как называется KOH?" }, answer: { en: "potassium hydroxide", ru: "гидроксид калия" } },
+        { name: "CaO", x: 120, y: 190, color: "#1f77b4", shape: "circle", question: { en: "What is CaO called?", ru: "Как называется CaO?" }, answer: { en: "calcium oxide", ru: "оксид кальция" } },
+        { name: "SO3", x: 80, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is SO3 called?", ru: "Как называется SO3?" }, answer: { en: "sulfur trioxide", ru: "триоксид серы" } },
+        { name: "H3PO4", x: 140, y: 160, color: "#8c564b", shape: "circle", question: { en: "What is H3PO4 called?", ru: "Как называется H3PO4?" }, answer: { en: "phosphoric acid", ru: "фосфорная кислота" } },
+        { name: "Na2CO3", x: 110, y: 180, color: "#e377c2", shape: "circle", question: { en: "What is Na2CO3 called?", ru: "Как называется Na2CO3?" }, answer: { en: "sodium carbonate", ru: "карбонат натрия" } },
+        { name: "FeCl3", x: 150, y: 120, color: "#7f7f7f", shape: "circle", question: { en: "What is FeCl3 called?", ru: "Как называется FeCl3?" }, answer: { en: "iron chloride", ru: "хлорид железа" } },
+        { name: "CuO", x: 100, y: 140, color: "#2ca02c", shape: "circle", question: { en: "What is CuO called?", ru: "Как называется CuO?" }, answer: { en: "copper oxide", ru: "оксид меди" } },
+        { name: "ZnO", x: 130, y: 160, color: "#ff7f0e", shape: "circle", question: { en: "What is ZnO called?", ru: "Как называется ZnO?" }, answer: { en: "zinc oxide", ru: "оксид цинка" } },
+        { name: "K2CO3", x: 160, y: 180, color: "#d62728", shape: "circle", question: { en: "What is K2CO3 called?", ru: "Как называется K2CO3?" }, answer: { en: "potassium carbonate", ru: "карбонат калия" } },
+        { name: "HBr", x: 120, y: 200, color: "#17becf", shape: "circle", question: { en: "What is HBr called?", ru: "Как называется HBr?" }, answer: { en: "hydrobromic acid", ru: "бромоводородная кислота" } },
+        { name: "H2CO3", x: 80, y: 150, color: "#1f77b4", shape: "circle", question: { en: "What is H2CO3 called?", ru: "Как называется H2CO3?" }, answer: { en: "carbonic acid", ru: "угольная кислота" } },
+        { name: "NH4Cl", x: 140, y: 170, color: "#9467bd", shape: "circle", question: { en: "What is NH4Cl called?", ru: "Как называется NH4Cl?" }, answer: { en: "ammonium chloride", ru: "хлорид аммония" } },
+        { name: "MgCl2", x: 110, y: 130, color: "#8c564b", shape: "circle", question: { en: "What is MgCl2 called?", ru: "Как называется MgCl2?" }, answer: { en: "magnesium chloride", ru: "хлорид магния" } },
+        { name: "CaSO4", x: 150, y: 190, color: "#e377c2", shape: "circle", question: { en: "What is CaSO4 called?", ru: "Как называется CaSO4?" }, answer: { en: "calcium sulfate", ru: "сульфат кальция" } },
+        { name: "FeSO4", x: 100, y: 120, color: "#7f7f7f", shape: "circle", question: { en: "What is FeSO4 called?", ru: "Как называется FeSO4?" }, answer: { en: "iron sulfate", ru: "сульфат железа" } },
+        { name: "CuSO4", x: 130, y: 140, color: "#2ca02c", shape: "circle", question: { en: "What is CuSO4 called?", ru: "Как называется CuSO4?" }, answer: { en: "copper sulfate", ru: "сульфат меди" } },
+        { name: "ZnSO4", x: 160, y: 160, color: "#ff7f0e", shape: "circle", question: { en: "What is ZnSO4 called?", ru: "Как называется ZnSO4?" }, answer: { en: "zinc sulfate", ru: "сульфат цинка" } },
+        { name: "NaClO", x: 120, y: 180, color: "#d62728", shape: "circle", question: { en: "What is NaClO called?", ru: "Как называется NaClO?" }, answer: { en: "sodium hypochlorite", ru: "гипохлорит натрия" } },
+        { name: "KClO3", x: 80, y: 200, color: "#17becf", shape: "circle", question: { en: "What is KClO3 called?", ru: "Как называется KClO3?" }, answer: { en: "potassium chlorate", ru: "хлорат калия" } },
+        { name: "H2S", x: 140, y: 130, color: "#1f77b4", shape: "circle", question: { en: "What is H2S called?", ru: "Как называется H2S?" }, answer: { en: "hydrogen sulfide", ru: "сероводород" } }
     ]
 };
 
@@ -188,7 +230,7 @@ const background = new Image();
 const player = {
     x: 50,
     y: 50,
-    size: 100,
+    size: 150,
     image: new Image()
 };
 player.image.src = "icons/player.jpg";
@@ -231,7 +273,6 @@ function init() {
                 answer: q.name
             }));
         } else {
-            console.error("Custom level not found:", levelId);
             location.href = "auth.html";
             return;
         }
@@ -250,7 +291,6 @@ function init() {
                 answer: e.answer[currentLang]
             }));
         } else {
-            console.error("Standard level not found:", levelNum);
             location.href = "auth.html";
             return;
         }
@@ -360,13 +400,16 @@ function checkCollision() {
         isLevelCompleted = true;
         if (!levelsCompleted.includes(currentLevel)) {
             levelsCompleted.push(currentLevel);
+            const nextLevel = !currentLevel.startsWith("custom_") && parseInt(currentLevel) < 10 ? parseInt(currentLevel) + 1 : null;
+            if (nextLevel && !levelsCompleted.includes(nextLevel)) {
+                levelsCompleted.push(nextLevel.toString());
+            }
             userCoins += 10;
             const users = JSON.parse(localStorage.getItem("users")) || {};
             if (users[currentUser]) {
                 users[currentUser].coins = userCoins;
                 localStorage.setItem("users", JSON.stringify(users));
                 localStorage.setItem(`progress_${currentUser}`, JSON.stringify(levelsCompleted));
-                console.log('Level completed:', currentLevel, 'Progress saved:', levelsCompleted, 'Coins:', userCoins);
             }
         }
         setTimeout(() => {
@@ -400,6 +443,10 @@ function updateScore() {
     const scoreElement = document.getElementById("score");
     if (scoreElement) {
         scoreElement.textContent = collected.length;
+    }
+    const coinsElement = document.getElementById("coins");
+    if (coinsElement) {
+        coinsElement.textContent = userCoins;
     }
 }
 
@@ -477,6 +524,5 @@ player.image.onload = () => {
 };
 
 player.image.onerror = () => {
-    console.error("Failed to load player image");
     init();
 };
