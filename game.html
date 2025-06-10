@@ -6,183 +6,278 @@
     <title>Chemical Game</title>
     <script src="game.js" defer></script>
     <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-        
-@import url('https://fonts.googleapis.com/css2?family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 
-button {
-    font-family: 'Poppins', Arial, sans-serif;
-    font-family: 'Sansation', Arial, sans-serif;
-}
-
-body {
-    font-family: 'Poppins', Arial, sans-serif;
-    font-family: 'Sansation', Arial, sans-serif;
-    text-align: center;
-    background: #f0f0f0;
-    margin: 0;
-}
-
-header {
-    height: 60px;
-    box-shadow: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    background: rgba(0, 0, 0, 0.5);
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    border-bottom: #00000093 0.5px solid;
-    z-index: 10;
-    
-    select {
-        padding: 8px 12px;
-        font-size: 16px;
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        background-color: #f9f9f9;
-        color: #333;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 12px center;
-        background-size: 10px 6px;
-        cursor: pointer;
-        transition: border-color 0.3s, box-shadow 0.3s;
-        padding-right: 36px;
-    }
-
-    select:hover {
-        border-color: #888;
-    }
-
-    select:focus {
-        border-color: #0077ff;
-        box-shadow: 0 0 5px rgba(0, 119, 255, 0.5);
-    }
-
-    p {
-        color: #fff;
-        font-weight: bold;
-    }
-
-    button {
-        border: none;
-        border-radius: 8px;
-        height: 40px;
-        text-align: center;
-        background:#f9f9f9;
-        color:#000;
-    }
-
-    button:hover {
-        background:yellow;
-        color:black;
-        font-size:14px;
-        transition:background 0.3s, font-size 0.3s;
-        height: 45px;
-    }
-    
-    button:focus {
-        border-color: #0077ff;
-        box-shadow: 0 0 5px rgba(0, 119, 255, 0.5);
-    }
-}
-
-canvas {
-    width: 100vw;
-    height: 100vh;
-    display: block;
-    background: url(../icons/background.jpg) no-repeat center center;
-    background-size: cover;
-    border: 2px solid #2a3d66;
-}
-
-.controls {
-    position: fixed;
-    justify-content:space-evenly;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    
-    button {
-        padding: 10px 20px;
-        font-size: 12px;
-        cursor: pointer;
-        margin: 5px;
-        background: #0000009e;
-        border: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-        border-radius: 10px;
-        color: white;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
-}
 
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    align-items: center;
-    justify-content: center;
-    z-index: 20;
+        body {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .modal-content {
-        display: none;
-        position: relative;
-        width: 280px;
-        height: auto;
-        background: white;
-        padding: 10px;
-        justify-content: space-evenly;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        text-align: center;
-        
-        .info {
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            height: 50px;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-        
-        summary {
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
+            padding: 0 20px;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
         }
 
-        details > *:not(summary) {
-            font-size: 10px;
+        header h1 {
+            font-family: 'Sansation', sans-serif;
+            font-size: 24px;
+            color: #ecf0f1;
+            margin: 0;
+            text-align: center;
+        }
+
+        header select {
+            background: #3498db;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 25px;
+            color: #fff;
+            font-family: 'Sansation', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            text-align: center;
+        }
+
+        header select:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        header select:focus {
+            background: #1f6391;
+            outline: none;
+        }
+
+        header p {
+            font-family: 'Sansation', sans-serif;
+            font-size: 16px;
+            color: #ecf0f1;
+            margin: 0;
+        }
+
+        header button {
+            background: #3498db;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            color: #fff;
+            font-family: 'Sansation', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        header button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        header button:active {
+            background: #1f6391;
+            transform: scale(0.95);
+        }
+
+        canvas {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+            background: rgba(255, 255, 255, 0.05);
+            border: none;
+            margin-top: 50px;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .controls button {
+            background: #3498db;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            color: #fff;
+            font-family: 'Sansation', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .controls button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .controls button:active {
+            background: #1f6391;
+            transform: scale(0.95);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content .info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .modal-content summary {
+            font-family: 'Sansation', sans-serif;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .modal-content details > *:not(summary) {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
             margin-left: 15px;
             margin-top: 5px;
         }
-       
-        button {
+
+        .modal-content button {
+            background: #3498db;
             border: none;
-            background: black;
+            padding: 12px;
+            border-radius: 25px;
             color: #fff;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-            height: 50px;
-            width: 70%;
-            border-radius: 20px;
+            font-family: 'Sansation', sans-serif;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 10px;
         }
 
-        input {
+        .modal-content button:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .modal-content button:active {
+            background: #1f6391;
+            transform: scale(0.95);
+        }
+
+        .modal-content input {
             padding: 10px;
             margin: 10px 0;
-            width: 80%;
-            border: #000 1px solid;
+            width: 100%;
+            max-width: 200px;
+            border: none;
             border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
         }
-    }
-}
 
+        .modal-content input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 20px;
+            }
+
+            header select, header button {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+
+            .controls button {
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+
+            .modal-content {
+                width: 90%;
+                padding: 15px;
+            }
+
+            .modal-content summary {
+                font-size: 12px;
+            }
+
+            .modal-content details > *:not(summary) {
+                font-size: 10px;
+            }
+
+            .modal-content button, .modal-content input {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
+<body>
+    <header>
+        <h1>Chemical Game</h1>
+        <div>
+            <select id="languageSelect">
+                <option value="en">English</option>
+                <option value="ru">Русский</option>
+            </select>
+            <button id="menuButton">Menu</button>
+        </div>
+    </header>
+    <canvas id="gameCanvas"></canvas>
+    <div class="controls" id="controls"></div>
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modalContent"></div>
+    </div>
+</body>
 </html>
