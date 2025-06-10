@@ -1,97 +1,334 @@
-let currentLang = localStorage.getItem("gameLanguage") || "en";
-const validLanguages = ["en", "ru"];
-if (!validLanguages.includes(currentLang)) {
-    currentLang = "en";
-    localStorage.setItem("gameLanguage", "en");
-}
+const VALID_LANGUAGES = ['en', 'ru'];
+const CANVAS_ID = 'gameCanvas';
+const MODAL_ID = 'modal';
 
 const languages = {
-    en: {
-        quit: "Quit",
-        score: "Score",
-        settings: "Settings",
-        controls: { left: "⬅️ LEFT", right: "➡️ RIGHT", up: "⬆️ UP", down: "⬇️ DOWN" },
-        questionLabel: "Question:",
-        placeholder: "Write your answer",
-        wrong: "Wrong answer! Check the hint below.",
-        send: "Send",
-        level: "Level",
-        hint: "Hint"
-    },
-    ru: {
-        quit: "Выйти",
-        score: "Счёт",
-        settings: "Настройки",
-        controls: { left: "⬅️ ВЛЕВО", right: "➡️ ВПРАВО", up: "⬆️ ВВЕРХ", down: "⬇️ ВНИЗ" },
-        questionLabel: "Вопрос:",
-        placeholder: "Введите ответ",
-        wrong: "Неправильный ответ! Проверьте подсказку ниже.",
-        send: "Отправить",
-        level: "Уровень",
-        hint: "Подсказка"
-    }
+  en: {
+    quit: 'Quit',
+    score: 'Score',
+    settings: 'Settings',
+    controls: { left: '⬅️ LEFT', right: '➡️ RIGHT', up: '⬆️ UP', down: '⬇️ DOWN' },
+    questionLabel: 'Question:',
+    placeholder: 'Write your answer',
+    wrong: 'Wrong answer! Check the hint below.',
+    send: 'Send',
+    level: 'Level',
+    hint: 'Hint'
+  },
+  ru: {
+    quit: 'Выйти',
+    score: 'Счёт',
+    settings: 'Настройки',
+    controls: { left: '⬅️ ВЛЕВО', right: '➡️ ВПРАВО', up: '⬆️ ВВЕРХ', down: '⬇️ ВНИЗ' },
+    questionLabel: 'Вопрос:',
+    placeholder: 'Введите ответ',
+    wrong: 'Неправильный ответ! Проверьте подсказку ниже.',
+    send: 'Отправить',
+    level: 'Уровень',
+    hint: 'Подсказка'
+  }
 };
 
-let elements = [];
-const collected = [];
-let currentElement = null;
-const currentUser = localStorage.getItem("currentUser");
-let levelsCompleted = [];
-const currentLevel = localStorage.getItem("currentLevel");
-let userCoins = 0;
-let isLevelCompleted = false;
-
 const standardLevels = {
-    1: [
-        { name: "H2O", x: 100, y: 150, color: "#2ca02c", shape: "circle", question: { en: "What is H2O called?", ru: "Как называется H2O?" }, answer: { en: "water", ru: "вода" }, hint: { en: "Common liquid essential for life", ru: "Обычная жидкость, необходимая для жизни" } },
-        { name: "CO2", x: 120, y: 100, color: "#ff7f0e", shape: "circle", question: { en: "What is CO2 called?", ru: "Как называется CO2?" }, answer: { en: "carbon dioxide", ru: "углекислый газ" }, hint: { en: "Gas produced by respiration", ru: "Газ, выделяемый при дыхании" } },
-        { name: "O2", x: 150, y: 200, color: "#d62728", shape: "circle", question: { en: "What is O2 called?", ru: "Как называется O2?" }, answer: { en: "oxygen", ru: "кислород" }, hint: { en: "Gas essential for breathing", ru: "Газ, необходимый для дыхания" } },
-        { name: "N2", x: 200, y: 120, color: "#17becf", shape: "circle", question: { en: "What is N2 called?", ru: "Как называется N2?" }, answer: { en: "nitrogen", ru: "азот" }, hint: { en: "Most abundant gas in the atmosphere", ru: "Наиболее распространённый газ в атмосфере" } },
-        { name: "CH4", x: 180, y: 160, color: "#1f77b4", shape: "circle", question: { en: "What is CH4 called?", ru: "Как называется CH4?" }, answer: { en: "methane", ru: "метан" }, hint: { en: "Main component of natural gas", ru: "Основной компонент природного газа" } }
-    ],
-    2: [
-        { name: "NaCl", x: 20, y: 140, color: "#d62728", shape: "circle", question: { en: "What is NaCl called?", ru: "Как называется NaCl?" }, answer: { en: "salt", ru: "соль" }, hint: { en: "Common table seasoning", ru: "Обычная пищевая приправа" } },
-        { name: "Na", x: 130, y: 170, color: "#17becf", shape: "circle", question: { en: "What is Na called?", ru: "Как называется Na?" }, answer: { en: "sodium", ru: "натрий" }, hint: { en: "Soft, reactive metal", ru: "Мягкий, реактивный металл" } },
-        { name: "K", x: 160, y: 100, color: "#2ca02c", shape: "circle", question: { en: "What is K called?", ru: "Как называется K?" }, answer: { en: "potassium", ru: "калий" }, hint: { en: "Metal found in bananas", ru: "Металл, содержащийся в бананах" } },
-        { name: "Cl2", x: 80, y: 180, color: "#ff7f0e", shape: "circle", question: { en: "What is Cl2 called?", ru: "Как называется Cl2?" }, answer: { en: "chlorine", ru: "хлор" }, hint: { en: "Greenish gas used in disinfectants", ru: "Зеленоватый газ, используемый в дезинфицирующих средствах" } },
-        { name: "H2", x: 200, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is H2 called?", ru: "Как называется H2?" }, answer: { en: "hydrogen", ru: "водород" }, hint: { en: "Lightest element, used in balloons", ru: "Самый лёгкий элемент, используется в воздушных шарах" } },
-        { name: "SO2", x: 140, y: 200, color: "#8c564b", shape: "circle", question: { en: "What is SO2 called?", ru: "Как называется SO2?" }, answer: { en: "sulfur dioxide", ru: "диоксид серы" }, hint: { en: "Gas with a pungent smell", ru: "Газ с резким запахом" } },
-        { name: "NH3", x: 90, y: 110, color: "#e377c2", shape: "circle", question: { en: "What is NH3 called?", ru: "Как называется NH3?" }, answer: { en: "ammonia", ru: "аммиак" }, hint: { en: "Gas used in cleaning products", ru: "Газ, используемый в моющих средствах" } }
-    ],
-    3: [
-        { name: "OH", x: 50, y: 200, color: "#ff7f0e", shape: "circle", question: { en: "What is OH called?", ru: "Как называется OH?" }, answer: { en: "hydroxide", ru: "гидроксид" }, hint: { en: "Ion found in bases", ru: "Ион, содержащийся в основаниях" } },
-        { name: "O²", x: 200, y: 150, color: "#d62728", shape: "circle", question: { en: "What is O² called?", ru: "Как называется O²?" }, answer: { en: "oxide", ru: "оксид" }, hint: { en: "Ion common in metal compounds", ru: "Ион, распространённый в соединениях металлов" } },
-        { name: "HCl", x: 80, y: 120, color: "#1f77b4", shape: "circle", question: { en: "What is HCl called?", ru: "Как называется HCl?" }, answer: { en: "hydrochloric acid", ru: "соляная кислота" }, hint: { en: "Acid used in stomach digestion", ru: "Кислота, используемая в пищеварении" } },
-        { name: "Ca", x: 150, y: 180, color: "#9467bd", shape: "circle", question: { en: "What is Ca called?", ru: "Как называется Ca?" }, answer: { en: "calcium", ru: "кальций" }, hint: { en: "Element essential for bones", ru: "Элемент, необходимый для костей" } },
-        { name: "Mg", x: 110, y: 140, color: "#8c564b", shape: "circle", question: { en: "What is Mg called?", ru: "Как называется Mg?" }, answer: { en: "magnesium", ru: "магний" }, hint: { en: "Metal that burns brightly", ru: "Металл, который ярко горит" } },
-        { name: "Fe", x: 170, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is Fe called?", ru: "Как называется Fe?" }, answer: { en: "iron", ru: "железо" }, hint: { en: "Metal used in steel production", ru: "Металл, используемый в производстве стали" } },
-        { name: "Al", x: 130, y: 190, color: "#7f7f7f", shape: "circle", question: { en: "What is Al called?", ru: "Как называется Al?" }, answer: { en: "aluminum", ru: "алюминий" }, hint: { en: "Light metal used in cans", ru: "Лёгкий металл, используемый в банках" } },
-        { name: "HNO3", x: 90, y: 130, color: "#bcbd22", shape: "circle", question: { en: "What is HNO3 called?", ru: "Как называется HNO3?" }, answer: { en: "nitric acid", ru: "азотная кислота" }, hint: { en: "Acid used in fertilizers", ru: "Кислота, используемая в удобрениях" } },
-        { name: "NaOH", x: 140, y: 170, color: "#17becf", shape: "circle", question: { en: "What is NaOH called?", ru: "Как называется NaOH?" }, answer: { en: "sodium hydroxide", ru: "гидроксид натрия" }, hint: { en: "Strong base used in soap making", ru: "Сильное основание, используемое в производстве мыла" } }
-    ],
-    4: [
-        { name: "HCl", x: 80, y: 120, color: "#1f77b4", shape: "circle", question: { en: "What is HCl called?", ru: "Как называется HCl?" }, answer: { en: "hydrochloric acid", ru: "соляная кислота" }, hint: { en: "Acid used in stomach digestion", ru: "Кислота, используемая в пищеварении" } },
-        { name: "NH3", x: 150, y: 180, color: "#9467bd", shape: "circle", question: { en: "What is NH3 called?", ru: "Как называется NH3?" }, answer: { en: "ammonia", ru: "аммиак" }, hint: { en: "Gas used in cleaning products", ru: "Газ, используемый в моющих средствах" } },
-        { name: "CH4", x: 90, y: 130, color: "#8c564b", shape: "circle", question: { en: "What is CH4 called?", ru: "Как называется CH4?" }, answer: { en: "methane", ru: "метан" }, hint: { en: "Main component of natural gas", ru: "Основной компонент природного газа" } },
-        { name: "SO2", x: 140, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is SO2 called?", ru: "Как называется SO2?" }, answer: { en: "sulfur dioxide", ru: "диоксид серы" }, hint: { en: "Gas with a pungent smell", ru: "Газ с резким запахом" } },
-        { name: "KCl", x: 110, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is KCl called?", ru: "Как называется KCl?" }, answer: { en: "potassium chloride", ru: "хлорид калия" }, hint: { en: "Compound used in fertilizers", ru: "Соединение, используемое в удобрениях" } },
-        { name: "CaCO3", x: 130, y: 190, color: "#bcbd22", shape: "circle", question: { en: "What is CaCO3 called?", ru: "Как называется CaCO3?" }, answer: { en: "calcium carbonate", ru: "карбонат кальция" }, hint: { en: "Found in limestone and chalk", ru: "Содержится в известняке и меле" } },
-        { name: "H2SO4", x: 160, y: 110, color: "#2ca02c", shape: "circle", question: { en: "What is H2SO4 called?", ru: "Как называется H2SO4?" }, answer: { en: "sulfuric acid", ru: "серная кислота" }, hint: { en: "Strong acid used in batteries", ru: "Сильная кислота, используемая в батареях" } },
-        { name: "NO2", x: 120, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is NO2 called?", ru: "Как называется NO2?" }, answer: { en: "nitrogen dioxide", ru: "диоксид азота" }, hint: { en: "Brown gas contributing to air pollution", ru: "Коричневый газ, способствующий загрязнению воздуха" } },
-        { name: "C6H12O6", x: 80, y: 200, color: "#d62728", shape: "circle", question: { en: "What is C6H12O6 called?", ru: "Как называется C6H12O6?" }, answer: { en: "glucose", ru: "глюкоза" }, hint: { en: "Sugar used in energy production", ru: "Сахар, используемый для выработки энергии" } },
-        { name: "MgO", x: 140, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is MgO called?", ru: "Как называется MgO?" }, answer: { en: "magnesium oxide", ru: "оксид магния" }, hint: { en: "White solid used in antacids", ru: "Белое твёрдое вещество, используемое в антацидах" } },
-        { name: "Al2O3", x: 90, y: 180, color: "#8c564b", shape: "circle", question: { en: "What is Al2O3 called?", ru: "Как называется Al2O3?" }, answer: { en: "aluminum oxide", ru: "оксид алюминия" }, hint: { en: "Compound used in abrasives", ru: "Соединение, используемое в абразивах" } }
-    ],
-    5: [
-        { name: "CH4", x: 90, y: 130, color: "#8c564b", shape: "circle", question: { en: "What is CH4 called?", ru: "Как называется CH4?" }, answer: { en: "methane", ru: "метан" }, hint: { en: "Main component of natural gas", ru: "Основной компонент природного газа" } },
-        { name: "SO2", x: 140, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is SO2 called?", ru: "Как называется SO2?" }, answer: { en: "sulfur dioxide", ru: "диоксид серы" }, hint: { en: "Gas with a pungent smell", ru: "Газ с резким запахом" } },
-        { name: "KCl", x: 110, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is KCl called?", ru: "Как называется KCl?" }, answer: { en: "potassium chloride", ru: "хлорид калия" }, hint: { en: "Compound used in fertilizers", ru: "Соединение, используемое в удобрениях" } },
-        { name: "CaCO3", x: 130, y: 190, color: "#bcbd22", shape: "circle", question: { en: "What is CaCO3 called?", ru: "Как называется CaCO3?" }, answer: { en: "calcium carbonate", ru: "карбонат кальция" }, hint: { en: "Found in limestone and chalk", ru: "Содержится в известняке и меле" } },
-        { name: "Fe2O3", x: 100, y: 170, color: "#17becf", shape: "circle", question: { en: "What is Fe2O3 called?", ru: "Как называется Fe2O3?" }, answer: { en: "iron oxide", ru: "оксид железа" }, hint: { en: "Rust is a form of this compound", ru: "Ржавчина - это форма этого соединения" } },
-        { name: "H2SO4", x: 160, y: 110, color: "#2ca02c", shape: "circle", question: { en: "What is H2SO4 called?", ru: "Как называется H2SO4?" }, answer: { en: "sulfuric acid", ru: "серная кислота" }, hint: { en: "Strong acid used in batteries", ru: "Сильная кислота, используемая в батареях" } },
-        { name: "NO2", x: 120, y: 150, color: "#ff7f0e", shape: "circle", question: { en: "What is NO2 called?", ru: "Как называется NO2?" }, answer: { en: "nitrogen dioxide", ru: "диоксид азота" }, hint: { en: "Brown gas contributing to air pollution", ru: "Коричневый газ, способствующий загрязнению воздуха" } },
-        { name: "C6H12O6", x: 80, y: 200, color: "#d62728", shape: "circle", question: { en: "What is C6H12O6 called?", ru: "Как называется C6H12O6?" }, answer: { en: "glucose", ru: "глюкоза" }, hint: { en: "Sugar used in energy production", ru: "Сахар, используемый для выработки энергии" } },
-        { name: "MgO", x: 140, y: 130, color: "#9467bd", shape: "circle", question: { en: "What is MgO called?", ru: "Как называется MgO?" }, answer: { en: "magnesium oxide", ru: "оксид магния" }, hint: { en: "White solid used in antacids", ru: "Белое твёрдое вещество, используемое в антацидах" } },
-        { name: "Al2O3", x: 90, y: 180, color: "#8c564b", shape: "circle", question: { en: "What is Al2O3 called?", ru: "Как называется Al2O3?" }, answer: { en: "aluminum oxide", ru: "оксид алюминия" }, hint: { en: "Compound used in abrasives", ru: "Соединение, используемое в абразивах" } },
-        { name: "HNO3", x: 110, y: 160, color: "#e377c2", shape: "circle", question: { en: "What is HNO3 called?", ru: "Как называется HNO3?" }, answer: { en: "nitric acid", ru: "азотная кислота" }, hint: { en: "Acid used in fertilizers", ru: "Кислота, используемая в удобрениях" } },
-        { name: "NaOH", x: 150, y: 140, color: "#7f7f7f", shape: "circle", question: { en: "What is NaOH called?", ru: "Как называется NaOH?" }, answer: { en: "sodium hydroxide", ru: "гидроксид натрия" }, hint: { en: "Strong base used in soap making", ru: "Сильное основание, используемое в производстве мыла" } },
+  1: [
+    {
+      name: 'H2O', x: 100, y: 150, color: '#2ca02c', shape: 'circle',
+      question: { en: 'What is H2O called?', ru: 'Как называется H2O?' },
+      answer: { en: 'water', ru: 'вода' },
+      hint: { en: 'Common liquid essential for life', ru: 'Обычная жидкость, необходимая для жизни' }
+    },
+  ],
+};
+
+class ChemistryGame {
+  constructor() {
+    this.currentLang = this.getLanguage();
+    this.currentUser = localStorage.getItem('currentUser');
+    this.currentLevel = localStorage.getItem('currentLevel');
+    this.userCoins = 0;
+    this.collected = [];
+    this.elements = [];
+    this.levelsCompleted = [];
+    this.isLevelCompleted = false;
+    this.currentElement = null;
+
+    this.canvas = document.createElement('canvas');
+    this.canvas.id = CANVAS_ID;
+    this.ctx = this.canvas.getContext('2d');
+
+    this.background = new Image();
+    this.background.src = 'icons/background.jpg';
+
+    this.player = {
+      x: 50,
+      y: 50,
+      size: 30,
+      image: new Image()
+    };
+    this.player.image.src = 'icons/player.png';
+
+    this.modal = null;
+  }
+
+  getLanguage() {
+    let lang = localStorage.getItem('gameLanguage') || 'en';
+    if (!VALID_LANGUAGES.includes(lang)) {
+      lang = 'en';
+      localStorage.setItem('gameLanguage', 'en');
+    }
+    return lang;
+  }
+
+  init() {
+    if (!this.currentUser) {
+      location.href = 'index.html';
+      return;
+    }
+
+    const users = JSON.parse(localStorage.getItem('users')) || {};
+    if (!users[this.currentUser]) {
+      location.href = 'index.html';
+      return;
+    }
+    this.userCoins = users[this.currentUser].coins || 0;
+    this.levelsCompleted = JSON.parse(localStorage.getItem(`progress_${this.currentUser}`)) || [];
+
+    document.body.innerHTML = '';
+    document.body.appendChild(this.canvas);
+
+    this.loadLevel();
+    this.createUI();
+    this.setupModal();
+    this.resizeCanvas();
+    this.startGameLoop();
+  }
+
+  loadLevel() {
+    let levelName = '';
+    if (this.currentLevel.startsWith('custom_')) {
+      const levelId = this.currentLevel.replace('custom_', '');
+      const users = JSON.parse(localStorage.getItem('users')) || {};
+      const customLevel = users[this.currentUser].customLevels?.find(l => l.id === parseInt(levelId));
+      if (customLevel) {
+        levelName = customLevel.name[this.currentLang];
+        this.background.src = customLevel.background || 'icons/background.jpg';
+        this.elements = customLevel.questions[this.currentLang].map((q, i) => ({
+          name: q.name,
+          x: (customLevel.questions.x[i] || 0) * (this.canvas.width / 2),
+          y: (customLevel.questions.y[i] || 0) * (this.canvas.height / 2),
+          color: this.getRandomColor(),
+          shape: 'circle',
+          question: q.text,
+          answer: q.name,
+          hint: { en: 'Custom level hint', ru: 'Подсказка для пользовательского уровня' }
+        }));
+      } else {
+        location.href = 'index.html';
+      }
+    } else {
+      const levelNum = parseInt(this.currentLevel);
+      if (standardLevels[levelNum]) {
+        levelName = `${languages[this.currentLang].level} ${levelNum}`;
+        this.background.src = 'icons/background.jpg';
+        this.elements = standardLevels[levelNum].map(e => ({
+          name: e.name,
+          x: e.x,
+          y: e.y,
+          color: e.color,
+          shape: e.shape,
+          question: e.question[this.currentLang],
+          answer: e.answer[this.currentLang],
+          hint: e.hint[this.currentLang]
+        }));
+      } else {
+        location.href = 'index.html';
+      }
+    }
+    this.collected.length = 0;
+    document.querySelector('header p:last-child').textContent = levelName;
+  }
+
+  createUI() {
+    const header = document.createElement('header');
+    header.innerHTML = `
+      <button onclick="location.href='settings.html'">${languages[this.currentLang].settings}</button>
+      <button onclick="game.logout()">${languages[this.currentLang].quit}</button>
+      <p>${languages[this.currentLang].score}: <span id="score">0</span>/${this.elements.length}</p>
+      <p>Coins: <span id="coins">${this.userCoins}</span></p>
+      <p></p>
+    `;
+    document.body.appendChild(header);
+
+    const controls = document.createElement('div');
+    controls.className = 'controls';
+    controls.innerHTML = `
+      <button onclick="game.move('left')">${languages[this.currentLang].controls.left}</button>
+      <button onclick="game.move('right')">${languages[this.currentLang].controls.right}</button>
+      <button onclick="game.move('up')">${languages[this.currentLang].controls.up}</button>
+      <button onclick="game.move('down')">${languages[this.currentLang].controls.down}</button>
+    `;
+    document.body.appendChild(controls);
+  }
+
+  setupModal() {
+    this.modal = document.createElement('div');
+    this.modal.id = MODAL_ID;
+    this.modal.className = 'modal';
+    this.modal.innerHTML = `
+      <div class="modal-content">
+        <div class="info">
+          <p id="modalQuestionLabel">${languages[this.currentLang].questionLabel}</p>
+          <span id="closeModal" class="close-button">×</span>
+        </div>
+        <p id="question"></p>
+        <input type="text" id="answer" placeholder="${languages[this.currentLang].placeholder}">
+        <p id="error" style="color: red; display: none;">${languages[this.currentLang].wrong}</p>
+        <details>
+          <summary>${languages[this.currentLang].hint}</summary>
+          <p id="hint"></p>
+        </details>
+        <button id="submitAnswer">${languages[this.currentLang].send}</button>
+      </div>
+    `;
+    document.body.appendChild(this.modal);
+
+    document.getElementById('submitAnswer').onclick = () => this.checkAnswer();
+    document.getElementById('closeModal').onclick = () => {
+      this.modal.style.display = 'none';
+    };
+  }
+
+  resizeCanvas() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight - 100;
+  }
+
+  startGameLoop() {
+    const draw = () => {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+      if (this.background.complete) {
+        this.ctx.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
+      }
+
+      this.elements.forEach(el => {
+        if (!this.collected.includes(el.name)) {
+          this.ctx.beginPath();
+          this.ctx.arc(el.x, el.y, 15, 0, Math.PI * 2);
+          this.ctx.fillStyle = el.color;
+          this.ctx.fill();
+          this.ctx.closePath();
+          this.ctx.fillStyle = 'black';
+          this.ctx.textAlign = 'center';
+          this.ctx.fillText(el.name, el.x, el.y + 5);
+        }
+      });
+
+      if (this.player.image.complete) {
+        this.ctx.drawImage(this.player.image, this.player.x, this.player.y, this.player.size, this.player.size);
+      }
+
+      this.checkCollision();
+      requestAnimationFrame(draw);
+    };
+    draw();
+  }
+
+  checkCollision() {
+    this.elements.forEach(el => {
+      if (
+        !this.collected.includes(el.name) &&
+        Math.abs(this.player.x + this.player.size / 2 - el.x) < 20 &&
+        Math.abs(this.player.y + this.player.size / 2 - el.y) < 20
+      ) {
+        this.currentElement = el;
+        this.showQuestion();
+      }
+    });
+  }
+
+  showQuestion() {
+    if (this.currentElement) {
+      document.getElementById('question').textContent = this.currentElement.question;
+      document.getElementById('hint').textContent = this.currentElement.hint;
+      document.getElementById('answer').value = '';
+      document.getElementById('error').style.display = 'none';
+      this.modal.style.display = 'block';
+    }
+  }
+
+  checkAnswer() {
+    const answerInput = document.getElementById('answer').value.trim().toLowerCase();
+    const correctAnswer = this.currentElement.answer.toLowerCase();
+    if (answerInput === correctAnswer) {
+      this.collected.push(this.currentElement.name);
+      this.userCoins += 10;
+      this.updateUserData();
+      document.getElementById('score').textContent = this.collected.length;
+      document.getElementById('coins').textContent = this.userCoins;
+      this.modal.style.display = 'none';
+      this.checkLevelCompletion();
+    } else {
+      document.getElementById('error').style.display = 'block';
+    }
+  }
+
+  updateUserData() {
+    const users = JSON.parse(localStorage.getItem('users')) || {};
+    users[this.currentUser].coins = this.userCoins;
+    localStorage.setItem('users', JSON.stringify(users));
+  }
+
+  checkLevelCompletion() {
+    if (this.collected.length === this.elements.length && !this.isLevelCompleted) {
+      this.isLevelCompleted = true;
+      if (!this.levelsCompleted.includes(this.currentLevel)) {
+        this.levelsCompleted.push(this.currentLevel);
+        localStorage.setItem(`progress_${this.currentUser}`, JSON.stringify(this.levelsCompleted));
+      }
+      alert('Level completed!');
+      location.href = 'levels.html';
+    }
+  }
+
+  move(direction) {
+    const speed = 10;
+    switch (direction) {
+      case 'left':
+        this.player.x = Math.max(0, this.player.x - speed);
+        break;
+      case 'right':
+        this.player.x = Math.min(this.canvas.width - this.player.size, this.player.x + speed);
+        break;
+      case 'up':
+        this.player.y = Math.max(0, this.player.y - speed);
+        break;
+      case 'down':
+        this.player.y = Math.min(this.canvas.height - this.player.size, this.player.y + speed);
+        break;
+    }
+  }
+
+  logout() {
+    localStorage.removeItem('currentUser');
+    location.href = 'index.html';
+  }
+
+  getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+}
+
+const game = new ChemistryGame();
+
+window.addEventListener('load', () => {
+  game.init();
+});
+window.addEventListener('resize', () => {
+  game.resizeCanvas.bind(game);
+});
