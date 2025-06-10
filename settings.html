@@ -6,254 +6,262 @@
     <title>Settings - Chemistry Game</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-        
         @import url('https://fonts.googleapis.com/css2?family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
-        
-        button {
-            font-family: 'Poppins', Arial, sans-serif;
-            font-family: 'Sansation', Arial, sans-serif;
-        }
-        
-        select {
-            font-family: 'Poppins', Arial, sans-serif;
-            font-family: 'Sansation', Arial, sans-serif;
-        }
-        
-        body {
+
+        * {
             margin: 0;
-            font-family: 'Poppins', Arial, sans-serif;
-            font-family: 'Sansation', Arial, sans-serif;
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('icons/background.jpg') repeat center center fixed;
-            background-size: auto;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
             color: #fff;
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-        header {
-            background: #000;
-            height: 50px;
-            width: 100%;
-            position: fixed;
             display: flex;
-            justify-content: space-evenly;
+            justify-content: center;
             align-items: center;
-            padding: 0;
-            top: 0;
-            z-index: 1000;
+            padding: 20px;
         }
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 300px;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-20deg);
-            animation: shine 4s infinite;
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 100%; }
-            100% { left: 100%; }
-        }
+
         .parameters {
-            margin: 0 20px;
-            padding-top: 60px;
-            box-sizing: border-box;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
+
         .settings-option {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            padding: 10px;
+            width: 100%;
+            max-width: 300px;
         }
+
         .settings-option label {
+            font-family: 'Sansation', sans-serif;
+            font-size: 20px;
             font-weight: bold;
-            font-size: 26px;
+            color: #ecf0f1;
         }
+
         .settings-option select {
-            background: #333;
+            background: #3498db;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
             color: #fff;
-            border: 1px solid #555;
-            border-radius: 5px;
-            padding: 10px;
+            font-family: 'Sansation', sans-serif;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
-            max-width: 200px;
-            height: 48px;
-            line-height: 1.5;
-            box-sizing: border-box;
-            appearance: none;
             transition: background 0.3s, transform 0.2s;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
-        .settings-option select::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-20deg);
-            animation: shine 4s infinite;
-        }
+
         .settings-option select:hover {
-            background: #555;
+            background: #2980b9;
             transform: scale(1.05);
         }
+
         .settings-option select:active {
-            background: #222;
+            background: #1f6391;
             transform: scale(0.95);
         }
+
         .settings-buttons {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            padding: 10px;
+            width: 100%;
+            max-width: 300px;
         }
+
         .settings-buttons button {
-            background: #333;
+            background: #3498db;
+            border: none;
+            padding: 12px;
+            border-radius: 25px;
             color: #fff;
-            border: 1px solid #555;
-            border-radius: 5px;
-            padding: 10px;
+            font-family: 'Sansation', sans-serif;
             font-size: 16px;
             cursor: pointer;
             width: 100%;
-            max-width: 200px;
-            height: 48px;
-            line-height: 1.5;
-            box-sizing: border-box;
             transition: background 0.3s, transform 0.2s;
-            position: relative;
-            overflow: hidden;
         }
-        .settings-buttons button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-20deg);
-            animation: shine 4s infinite;
-        }
+
         .settings-buttons button:hover {
-            background: #555;
+            background: #2980b9;
             transform: scale(1.05);
         }
+
         .settings-buttons button:active {
-            background: #222;
+            background: #1f6391;
             transform: scale(0.95);
         }
+
         #createLevelButton {
-            background: #388e3c;
-            border: 1px solid #2e7d32;
+            background: #2ecc71;
         }
+
         #createLevelButton:hover {
-            background: #4caf50;
+            background: #27ae60;
         }
+
         #createLevelButton:active {
-            background: #2e7d32;
+            background: #219653;
         }
-        #deleteAccountButton {
-            background: #d32f2f;
-            border: 1px solid #b71c1c;
+
+        #deleteAccountButton, #deleteChatHistoryButton {
+            background: #e74c3c;
         }
-        #deleteAccountButton:hover {
-            background: #f44336;
+
+        #deleteAccountButton:hover, #deleteChatHistoryButton:hover {
+            background: #c0392b;
         }
-        #deleteAccountButton:active {
-            background: #b71c1c;
+
+        #deleteAccountButton:active, #deleteChatHistoryButton:active {
+            background: #992d22;
         }
-        #deleteChatHistoryButton {
-            background: #d32f2f;
-            border: 1px solid #b71c1c;
-        }
-        #deleteChatHistoryButton:hover {
-            background: #f44336;
-        }
-        #deleteChatHistoryButton:active {
-            background: #b71c1c;
-        }
+
         .modal {
             display: none;
             position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 0;
+            left: 0;
             width: 100%;
-            max-width: 300px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
             justify-content: center;
+            align-items: center;
             z-index: 2000;
         }
+
         .modal-content {
-            background: #fff;
-            padding: 15px;
-            border-radius: 5px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-        .modal-content p {
-            margin: 0 0 10px;
-            font-size: 16px;
+            background: rgba(255, 255, 255, 0.9);
             color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90%;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
+
+        .modal-content p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
         .modal-buttons {
             display: flex;
             justify-content: space-around;
             gap: 10px;
         }
+
         .modal-buttons button {
-            background: #333;
+            background: #3498db;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
             color: #fff;
-            border: 1px solid #555;
-            border-radius: 5px;
-            padding: 8px;
+            font-family: 'Sansation', sans-serif;
             font-size: 14px;
             cursor: pointer;
             width: 120px;
             transition: background 0.3s, transform 0.2s;
         }
+
         .modal-buttons button:hover {
-            background: #555;
+            background: #2980b9;
             transform: scale(1.05);
         }
+
         .modal-buttons button:active {
-            background: #222;
+            background: #1f6391;
             transform: scale(0.95);
         }
+
         #confirmDelete, #confirmDeleteChat {
-            background: #d32f2f;
-            border: 1px solid #b71c1c;
+            background: #e74c3c;
         }
+
         #confirmDelete:hover, #confirmDeleteChat:hover {
-            background: #f44336;
+            background: #c0392b;
         }
+
         #confirmDelete:active, #confirmDeleteChat:active {
-            background: #b71c1c;
+            background: #992d22;
         }
+
         #cancelDelete, #cancelDeleteChat {
-            background: #388e3c;
-            border: 1px solid #2e7d32;
+            background: #2ecc71;
         }
+
         #cancelDelete:hover, #cancelDeleteChat:hover {
-            background: #4caf50;
+            background: #27ae60;
         }
+
         #cancelDelete:active, #cancelDeleteChat:active {
-            background: #2e7d32;
+            background: #219653;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .settings-option label {
+                font-size: 18px;
+            }
+
+            .settings-option select, .settings-buttons button {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .modal-content {
+                width: 90%;
+                padding: 15px;
+            }
+
+            .modal-content p {
+                font-size: 14px;
+            }
+
+            .modal-buttons button {
+                font-size: 12px;
+                padding: 8px;
+                width: 100px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="parameters" id="parameters"></div>
+        <div class="settings-buttons" id="settingsButtons"></div>
+        <div id="modal"></div>
+    </div>
     <script src="settings.js"></script>
 </body>
 </html>
