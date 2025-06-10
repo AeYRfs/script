@@ -379,3 +379,174 @@ class ChemistryGame {
         <button id="submitAnswer">${languages[this.currentLang].send}</button>
       </div>
     `;
+    document.body.appendChild(this.modal);
+
+    document.getElementById('closeModal').onclick = () => this.closeModal();
+    document.getElementById('submitAnswer').onclick = () => this.submitAnswer();
+    document.getElementById('answer').onkeypress = (e) => {
+      if (e.key === 'Enter') this.submitAnswer();
+    };
+  }
+
+  resizeCanvas() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight - 100;
+    window.addEventListener('resize', () => {
+      this.canvas.width = window.innerWidth;
+      this.canvas.height = window.innerHeight - 100;
+      this.draw();
+    });
+  }
+
+  startGameLoop() {
+    this.draw();
+    this.canvas.addEventListener('click', (e) => this.handleClick(e));
+    requestAnimationFrame(() => this.gameLoop());
+  }
+
+  gameLoop() {
+    this.draw();
+    requestAnimationFrame(() => this.gameLoop());
+  }
+
+  draw() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.drawImage(this.background, 0, 0, this.canvas.width, this.canvas.height);
+
+    this.elements.forEach((element) => {
+      if (!this.collected.includes(element.name)) {
+        this.ctx.beginPath();
+        this.ctx.arc(element.x, element.y, 20, 0, Math.PI * 2);
+        this.ctx.fillStyle = element.color;
+        this.ctx.fill();
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = '16px Arial';
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
+        this.ctx.fillText(element.name, element.x, element.y);
+      }
+    });
+
+    this.ctx.drawImage(this.player.image, this.player.x - this.player.size / 2, this.player.y - this.player.size / 2, this.player.size, this.player.size);
+
+    document.getElementById('score').textContent = this.collected.length;
+  }
+
+  move(direction) {
+    const speed = 10;
+    switch (direction) {
+      case 'left':
+        this.player.x = Math.max(this.player.size / 2, this.player.x - speed);
+        break;
+      case 'right':
+        this.player.x = Math.min(this.canvas.width - this.player.size / 2, this.player.x + speed);
+        break;
+      case 'up':
+        this.player.y = Math.max(this.player.size / 2, this.player.y - speed);
+        break;
+      case 'down':
+        this.player.y = Math.min(this.canvas.height - this.player.size / 2, this.player.y + speed);
+        break;
+    }
+    this.checkCollision();
+  }
+
+  checkCollision() {
+    this.elements.forEach((element) => {
+      if (!this.collected.includes(element.name)) {
+        const dx = this.player.x - element.x;
+        const dy = this.player.y - element.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < this.player.size / 2 + 20) {
+          this.currentElement = element;
+          this.showModal();
+        }
+      }
+    });
+  }
+
+  handleClick(event) {
+    const rect = this.canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    this.elements.forEach((element) => {
+      if (!this.collected.includes(element.name)) {
+        const dx = x - element.x;
+        const dy = y - element.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < 20) {
+          this.currentElement = element;
+          this.showModal();
+        }
+      }
+    });
+  }
+
+  showModal() {
+    this.modal.style.display = 'block';
+    document.getElementById('question').textContent = this.currentElement.question;
+    document.getElementById('hint').textContent = this.currentElement.hint;
+    document.getElementById('answer').value = '';
+    document.getElementById('error').style.display = 'none';
+    document.getElementById('answer').focus();
+  }
+
+  closeModal() {
+    this.modal.style.display = 'none';
+    this.currentElement = null;
+  }
+
+  submitAnswer() {
+    const userAnswer = document.getElementById('answer').value.trim().toLowerCase();
+    const correctAnswer = this.currentElement.answer.toLowerCase();
+    if (userAnswer === correctAnswer) {
+      this.collected.push(this.currentElement.name);
+      this.closeModal();
+      this.updateScore();
+      this.checkLevelCompletion();
+    } else {
+      document.getElementById('error').style.display = 'block';
+    }
+  }
+
+  updateScore() {
+    const users = JSON.parse(localStorage.getItem('users')) || {};
+    this.userCoins += 10;
+    users[this.currentUser].coins = this.userCoins;
+    localStorage.setItem('users', JSON.stringify(users));
+    document.getElementById('coins').textContent = this.userCoins;
+  }
+
+  checkLevelCompletion() {
+    if (this.collected.length === this.elements.length && !this.isLevelCompleted) {
+      this.isLevelCompleted = true;
+      if (!this.levelsCompleted.includes(this.currentLevel)) {
+        this.levelsCompleted.push(this.currentLevel);
+        localStorage.setItem(`progress_${this.currentUser}`, JSON.stringify(this.levelsCompleted));
+      }
+      setTimeout(() => {
+        location.href = 'levels.html';
+      }, 1000);
+    }
+  }
+
+  getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  logout() {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentLevel');
+    location.href = 'index.html';
+  }
+}
+
+const game = new ChemistryGame();
+game.init();
+    
