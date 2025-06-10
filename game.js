@@ -262,7 +262,7 @@ function init() {
         const customLevel = users[currentUser].customLevels.find(l => l.id === parseInt(levelId));
         if (customLevel) {
             levelName = customLevel.name[currentLang];
-            background.src = customLevel.background || "icons/background.jpg";
+            background.src = customLevel.background || "icons/game-background.jpg";
             elements = customLevel.questions[currentLang].map((q, i) => ({
                 name: q.name,
                 x: (customLevel.questions.x[i] || 0) * (canvas.width / 100),
@@ -280,7 +280,7 @@ function init() {
         const levelNum = parseInt(currentLevel);
         if (standardLevels[levelNum]) {
             levelName = `${languages[currentLang].level} ${levelNum}`;
-            background.src = "icons/background.jpg";
+            background.src = "icons/game-background.jpg";
             elements = standardLevels[levelNum].map(e => ({
                 name: e.name,
                 x: e.x,
